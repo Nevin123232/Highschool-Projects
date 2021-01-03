@@ -1,0 +1,120 @@
+
+// duplicate element finder.cpp : This file contains the 'main' function. Program execution begins and ends there.
+//
+
+#include <iostream>
+#include <vector>  // includes the ability to make a vector 
+
+using namespace std;
+
+
+
+
+
+
+bool useagain() {
+    bool great;
+    cout << " \n Would you like to add another element? (Input 1 for yes) \n";
+    string i;
+    cin >> i;
+    if (i == "1") {
+
+
+        great = true;
+
+    }
+    else {
+        great = false;
+    }
+
+    return great;
+
+
+}
+int main()
+{
+
+    cout << "Hello World!\n";
+
+    bool oof = true;
+
+    vector  /* This calls a vector  */     < string >   /* This is the type of vector (int, string, etc)   */   vector;   /* This is the nae of the vector  */
+                                                       
+    // makes a vector with elements that you can manipulate  (the vector is named vector)
+    string rick;
+    cout << "\n Input numbers into a vector \n";
+    cin >> rick;
+    vector.push_back(rick);
+
+
+    string morning;
+    cout << "\n Input elements into a vector \n";
+    cin >> morning;
+    vector.push_back(morning);   // adds an element into the vector
+
+    bool goo = true;
+
+    while (goo == true) {
+       
+        string mob;
+        cout << "\n Input elements into a vector \n";
+        cin >> mob;
+        vector.push_back(mob);
+        if (useagain() == false) {
+
+            break;
+        }
+
+
+
+    }
+
+    cout << " \n cool \n";
+
+    for (int i = 0; i < vector.size(); i++) {
+
+        cout << vector[i] ;
+        cout << "\n "; 
+       
+
+    }
+    
+    cout << " \n You have inputted  " << vector.size() << " elements \n";
+
+    // lets find the first repeating ones 
+
+    for (int i = 0; i < vector.size(); i++) {
+       
+        for (int x = 1; x < vector.size(); x++) {
+            
+            if (i != x) { // makes sure that both i and x are not comparing the same element 
+                if (vector[i] == vector[x]) {
+
+                    cout << "\n The first repeating element of the vector is " << vector[x];   //finds the first repeating element 
+                    exit(0); // leaves immidietely lol
+                }
+
+
+            }
+
+        }
+        
+
+        
+
+    }
+    
+    cout << "\n You didn't put any repeating elements in your vector lol \n";
+    
+}
+
+// Run program: Ctrl + F5 or Debug > Start Without Debugging menu
+// Debug program: F5 or Debug > Start Debugging menu
+
+// Tips for Getting Started: 
+//   1. Use the Solution Explorer window to add/manage files
+//   2. Use the Team Explorer window to connect to source control
+//   3. Use the Output window to see build output and other messages
+//   4. Use the Error List window to view errors
+//   5. Go to Project > Add New Item to create new code files, or Project > Add Existing Item to add existing code files to the project
+//   6. In the future, to open this project again, go to File > Open > Project and select the .sln file
