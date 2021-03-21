@@ -1,0 +1,144 @@
+/* This was when I had to input the interest rate and output the future investment value over the next 30 years */
+
+import java.util.*;
+
+
+
+public class investmentCalculation {
+ 
+	static Scanner scan = new Scanner(System.in); // creates  a scanner object 
+	
+
+        public static boolean numberLegitimizer(String test) { 
+		
+		
+		boolean legit = false;
+		String numbers = "1234567890.";
+	
+		int counter = 0;  
+		
+		for (int i = 1; i <= test.length(); i++) { // Checks if a string only contains number characters 1234567890.
+			
+			
+			for (int o = 1; o <= numbers.length(); o++) {
+			
+			  if(test.substring(i - 1,i).equals(numbers.substring(o - 1, o)) ) {
+				
+				counter += 1; 
+				break;
+			   }
+			  
+			 
+			  
+			  
+				
+			}
+			
+		}
+		
+		
+		if (counter >= test.length() ) {
+
+			return !legit;  // Returns true:  If the number of number characters is greater than or equal to the length of the string
+		}
+		else {
+			
+		return legit; // Returns false: if the amount of number characters is less than the length of the string
+		
+		}
+		
+		
+		
+	}
+
+
+	public static double futureInvestmentValue(double investmentAmount, double monthlyInterestRate, int years) { // actual method that computes the investment
+		
+		
+		  
+		monthlyInterestRate = monthlyInterestRate/1200; // finds the monthly interest rate 
+
+        double projected  =  investmentAmount * Math.pow(1 + monthlyInterestRate, years * 12); // equation for investment (one has to use exponents) 
+        
+      // The equations that get the same output as Proffesor Mercer's 
+        		
+  
+		return projected;
+		
+		
+	}
+
+	public static void main( String[] args) {
+		
+		System.out.println("Input the amount invested: ");
+		String amounttext = scan.nextLine();
+		
+        while(numberLegitimizer(amounttext) != true) { // keeps repeating until the user enters a number with only number characters 1234567890
+			
+			System.out.println("Input the base investment amount (The number must only contain number characters (1234567890) and no spaces: ");
+			 amounttext = scan.nextLine();
+			
+			
+			
+		}
+        
+        
+        
+		System.out.println("Input the annual (yearly) interest rate (percentage): ");
+		String ratetext = scan.nextLine();
+		
+         while(numberLegitimizer(ratetext) != true) { // keeps repeating until the user enters a number with only number characters 1234567890
+			
+			System.out.println("Input the annual (yearly) interest rate (percentage) (The number must only contain number characters (1234567890) and no spaces: ");
+			 ratetext = scan.nextLine();
+			
+			
+			
+		}
+        
+		
+		double amount = Double.parseDouble(amounttext); // this converts the string to double 
+		
+		double rate = Double.parseDouble(ratetext); // this converts the string to double 
+     
+		
+	    int years = 1;
+         
+	    double output = 0;
+        
+        
+		System.out.println("  ");
+		System.out.println("  ");
+		
+		System.out.println("The amount invested: " + amount );
+		System.out.println("The annual interest rate: " + rate + "%");
+		
+		System.out.println("  ");
+		System.out.println("  ");
+		
+		System.out.println("Years " + "    " + "Future Value");
+		
+		
+		
+		
+		for (int p = 0; p < 30; p++) { /// for 30 years 
+			
+		output = futureInvestmentValue(amount,  rate ,years);
+		
+	    System.out.printf(p + 1 + "    " + "$%4.2f" + " \n", output); // output using printf
+	    
+	
+	    
+	
+		
+		years++;
+		
+	  
+		}
+		
+		
+		
+		
+	}
+}
+
