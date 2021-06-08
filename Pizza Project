@@ -1,0 +1,1177 @@
+    
+import java.util.*;
+ 
+public class pizza {   
+
+	// Pizza Program by Nevin Ndonwi
+	
+	static Scanner scan = new Scanner(System.in); // makes a scanner object usable within program
+	
+	public static boolean verifyarraylist(ArrayList <String> x, String y) {
+	
+		return x.contains(y);// returns true if the string is in the arraylist , false if it isn't in the arraylist
+		
+	}
+	
+	 
+	
+	public static void main(String[] args){
+		
+		int limit = 0; // amount of different ingredients
+		
+		
+		 String[] letters = {"a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w"};  // potential letter options that corresponds to possible choices
+
+		ArrayList<String> recipe = new ArrayList<String>(); // backend arraylist (its size is checked to make sure the user hasn't added too many ingredients) 
+		ArrayList<String> pizzarecipe = new ArrayList<String>(); // Makes an ArrayList of the User's ingredients going on their pizza (displayed to user)
+		ArrayList<String> letteroptions = new ArrayList<String>(); // Arraylist of potential letter options that corresponds to possible choices
+		 
+		
+		
+		
+		 // Get the User's crust
+       System.out.println("*******************************************************************************\n");
+       System.out.println("Please input one crust option\n");
+	   String[] crust = {"* Crust-gluten-free " , "* Crust - regular "};
+	 
+	   for(int print = 0; print < crust.length; print++) { // prints what is in the letters and crust array
+		   
+		   System.out.print(letters[print] + "." + " " + crust[print] + "            ");
+		   letteroptions.add(letters[print]);
+	   }
+	   
+	   
+	   System.out.println("\nInput the letter that corresponds with your preffered option:");
+	   String crusttype = scan.nextLine();
+	  
+	   //checks input
+	   while( !(verifyarraylist(letteroptions, crusttype) ) ){
+		   
+		   System.out.println("Your previous input was invalid, Input one of the letters that corresponds with your option.\n");
+		   
+		   crusttype = scan.nextLine();
+		   
+		   
+	   }
+	   pizzarecipe.add( crust[letteroptions.indexOf(crusttype)]); // adds ingredient to actual pizza ingredient list 
+	   recipe.add( crust[letteroptions.indexOf(crusttype)]);// adds it to back end array
+	   System.out.println("Your crust type has been added to your pizza!! \n");
+	   
+	   System.out.println("You have chosen " + pizzarecipe.get(0)  + "\n");
+	   
+	  
+	   System.out.print(pizzarecipe + "\n");
+	   
+	   limit += 1; // increases the amount of different ingredients by 1
+	   System.out.println("*******************************************************************************\n");
+	   
+	   
+	   
+	   
+	   //Get the User's Sauce 
+	   letteroptions.clear(); // Clears previous letter options.
+	   
+	   System.out.println("Please input one sauce option\n");
+	   String[] sauce = {"* Red sauce ", "* No Red Sauce "};
+	 
+	   for(int print = 0; print < sauce.length; print++) { // prints what is in the letters and sauce array
+		   
+		   System.out.print(letters[print] + "." + " " + sauce[print] + "            ");
+		   letteroptions.add(letters[print]);
+	   }
+	   
+	   
+	   System.out.print("\nInput the letter that corresponds with your preffered option:");
+	   String saucetype = scan.nextLine();
+	   
+	   //checks input
+	   while( !(verifyarraylist(letteroptions, saucetype) ) ){
+		   
+		   System.out.println("Your previous input was invalid, Input one of the letters that corresponds with your option.\n");
+		   
+		   saucetype = scan.nextLine();
+		   
+		   
+	   }
+	   
+	   
+	   if(letteroptions.indexOf(saucetype) == 0) {
+	   pizzarecipe.add( sauce[letteroptions.indexOf(saucetype)]); // adds ingredient to actual pizza ingredient list 
+	   }
+	   else {
+		   
+	   }
+	
+	   
+	   
+	   
+	   
+	 if(pizzarecipe.size()== 2) {    // Checks size if the user has inputted pizza sauce or not
+		 
+		 System.out.println("Your sauce has been added!");
+		  limit += 1; // increases the amount of different ingredients by 1
+		 
+		 String[] howmuch = {" 1/4 cup " , " 1/2 cup "}; // how much sauce you are able to put on your pizza
+		 
+		 for(int u = 0; u < howmuch.length; u++) {
+			 
+			 System.out.print(letteroptions.get(u) + ". " + howmuch[u] + "     ");
+			 
+		 }
+		 
+		 System.out.println("Input the letter that corresponds with your desired amount of sauce.");
+		 
+		 String a = scan.nextLine();
+		 
+		 
+		  //checks input
+		 while( !(verifyarraylist(letteroptions, a)) ) {
+			 
+			 System.out.println("Your previous input was invalid, Input one of the letters that corresponds with your option.\n");
+				
+			  a = scan.nextLine();
+			 
+		 }
+		 
+		 
+		 
+		 System.out.println("Your option has been noted. \n");
+		 
+		 
+		 pizzarecipe.set(1, "* Red sauce - " + howmuch[letteroptions.indexOf(a)] );
+         
+		 if(a.equals(howmuch[1])) { // adding stuff to back end array list 
+			 
+			 recipe.add(howmuch[0]);
+			 recipe.add(howmuch[0]);
+		 }
+		 else {
+			 
+			 recipe.add(howmuch[0]);
+			 
+		 }
+		 
+		 
+		 
+		
+	 } 
+	 else {
+		 
+		 System.out.println("\nNo Sauce has been added to your pizza.");
+
+		 
+	 }
+	   
+	  
+	   System.out.println(pizzarecipe + "\n");
+	   
+	  
+	   
+	   
+	   
+	   
+	   
+	   
+	   
+	   //Get the rest of the desired ingredients into the user's Pizza
+	   
+	   letteroptions.clear();
+	   ArrayList<String> ingredients = new ArrayList<String>();
+		
+	   // add possible ingredients into the array list named ingredients
+	   ingredients.add("* Pizza cheese ");    boolean cheese = true; // checks if cheese has been added before
+	   ingredients.add("* Diced onion ");    boolean onion = true;   // checks if onion has been added before
+	   ingredients.add("* Diced green pepper ");   boolean pepper = true;   // checks if pepper has been added before
+	   ingredients.add("* Pepperoni	");   boolean roni = true; // checks if pepperoni has been added before
+	   ingredients.add("* Sliced mushroom ");    boolean mushroom = true;   // checks if mushroom has been added before
+	   ingredients.add("* Diced jalapenos ");   boolean jala = true;  // checks if jalapenos has been added before
+	   ingredients.add("* Sardines");   boolean sard = true;   // checks if sard has been added before
+	   ingredients.add("* Pineapple Chunks ");    boolean pine = true;   // checks if pine has been added before
+	   ingredients.add("* Tofu ");    boolean tofu = true;   // checks if tofu has been added before
+	   ingredients.add("* Ham Chunks ");    boolean ham = true;   // checks if ham has been added before
+	   ingredients.add("* Dry red pepper ");   boolean red = true;  // checks if red has been added before
+	   ingredients.add("* Dried basil ");   boolean basil = true;  // checks if basil has been added before
+	   
+	   String option = "";
+	   String go = "";
+	   
+	   
+	  // limit += 1; // increases the amount of different ingredients by 1
+	   while(limit < 8) { // makes sure that the user can't stop putting ingredients after they have 8 items
+		   
+		   letteroptions.clear();
+		   
+		   System.out.println("\n");
+		   
+		   System.out.println("*******************************************************************************\n");
+		   
+		   
+		   System.out.println("\n");
+		   
+		   for(int y = 0; y < ingredients.size(); y++) {
+			   
+			   System.out.println(letters[y] + "    " + ingredients.get(y) + "\n");
+			   letteroptions.add(letters[y]);
+		   }
+		   
+		   System.out.println("\n Input the letter that corresponds to your desired ingredient. ");
+		   
+		   option = scan.nextLine();
+		   
+		   
+		   //checks input
+		   
+		   while(  !(verifyarraylist(letteroptions, option))  ) { // if the input is not correct
+			   
+			   System.out.println("Your previous input was invalid. Please input a letter that corresponds with what you want.");
+			   
+			   option = scan.nextLine(); 
+			   
+			   
+		   }
+		   
+		   String amount = "";
+		   
+		   //checks what amounts should be inputted based on what option corresponds to 
+		   switch(ingredients.get(letteroptions.indexOf(option))) { // the actual ingredient as a string variable
+		   
+		   
+		   // If the user attempts to add pizza cheese
+		   case "* Pizza cheese ":  System.out.println("Would you like: a.  1/4 cup or     b.  1/2 cup ");
+		   
+		   if(cheese == true) {
+			   
+			   limit += 1;
+			   cheese = false;
+		   }
+		                            amount = scan.nextLine();
+		                            
+		                            
+		                            //checks input
+		                            while( !((amount.equals("a")) || (amount.equals("b"))) ) {
+		                   			 
+		                   			 System.out.println("Your previous input was invalid, Input one of the letters that corresponds with your option.\n");
+		                   				
+		                   			  amount = scan.nextLine();
+		                   			 
+		                   		 }
+		                            if(amount.equals("a")) { // adds cheese based on amount inputted
+		                            	
+		                            	pizzarecipe.add(ingredients.get(letteroptions.indexOf(option)) + " - " + " 1/4 cup");
+		                            	  System.out.println(ingredients.get(letteroptions.indexOf(option)) + " - " + " 1/4 cup " + " has been added to the recipe.");
+		  		                        if(recipe.contains("pizzacheese")) { // removes the ingredient if it is already maxed out in the pizza recipe
+		  		                        	
+		  		                        	 ingredients.remove(ingredients.get(letteroptions.indexOf(option))); // removes object after adding it to recipe
+		  		           				
+		  		                        }
+		                            	recipe.add("pizzacheese");
+		                            	
+		                            	
+		                            	
+		                            }
+		                            else {
+		                            	
+		                            	
+		                            	pizzarecipe.add(ingredients.get(letteroptions.indexOf(option)) + " - " + " 1/2 cup"); // adds to the pizza recipe that will be displayed to user
+		                            	 
+		                            	
+		                            	System.out.println(ingredients.get(letteroptions.indexOf(option)) + " - " + " 1/2 cup " + " has been added to the recipe."); // ouputs to user what has been added
+		  		                        
+		                            	recipe.add("pizzacheese"); // adds to back end recipe array list 
+		                            	
+		                            	
+		                            	recipe.add("pizzacheese");// adds to back end recipe array list 
+		                            	
+// adds more based on amount, makes sure the user doesn't add more than 8 ingredients total (recipe will be checked but pizzarecipe is displayed) 
+		                            	
+			                              ingredients.remove(ingredients.get(letteroptions.indexOf(option))); // removes object after adding it to recipe
+				
+			                       
+		                            } 
+		                            
+		                           
+		             
+		                            break;// ends statement of case
+		                            
+		                            
+		                            
+		                            
+		                            
+		         // If the user attempts to add diced onions                   
+		   case "* Diced onion ":   System.out.println("Would you like:    a. 1/8 cup   or   b. 1/4 cup ");
+           amount = scan.nextLine();
+           
+		   if(onion == true) {
+			   
+			   limit += 1;
+			   onion = false;
+		   }
+           
+           //checks input
+           
+           while( !((amount.equals("a")) || (amount.equals("b"))) ) {
+     			 
+     			 System.out.println("Your previous input was invalid, Input one of the letters that corresponds with your option.\n");
+     				
+     			  amount = scan.nextLine();
+     			 
+     		 }
+           if(amount.equals("a")) { // adds cheese based on amount inputted
+           	
+           	pizzarecipe.add(ingredients.get(letteroptions.indexOf(option)) + " - " + " 1/8 cup");
+           	  System.out.println(ingredients.get(letteroptions.indexOf(option)) + " - " + " 1/8 cup " + " has been added to the recipe.");
+                 if(recipe.contains("dicedonions")) { // removes the ingredient if it is already maxed out in the pizza recipe
+                 	
+                 	 ingredients.remove(ingredients.get(letteroptions.indexOf(option))); // removes object after adding it to recipe
+    				
+                 }
+           	recipe.add("dicedonions");
+           	
+           	
+           	
+           }
+           else {
+           	pizzarecipe.add(ingredients.get(letteroptions.indexOf(option)) + " - " + " 1/4 cup"); // adds to the pizza recipe that will be displayed to user
+           	 System.out.println(ingredients.get(letteroptions.indexOf(option)) + " - " + " 1/4 cup " + " has been added to the recipe."); // ouputs to user what has been added
+                 
+           	recipe.add("dicedonions"); // adds to back end recipe array list 
+           	recipe.add("dicedonions");// adds to back end recipe array list 
+           	
+//adds more based on amount, makes sure the user doesn't add more than 8 ingredients total (recipe will be checked but pizzarecipe is displayed) 
+           	
+   
+      	
+           	
+           	
+                 ingredients.remove(ingredients.get(letteroptions.indexOf(option))); // removes object after adding it to recipe
+
+           	
+           } 
+
+           break;// ends statement of case
+			   
+			   
+			   
+			   
+			   
+			   
+			   
+			   
+			   
+			   // If the user attempts to add green peppers            
+		   case "* Diced green pepper ":  
+			 
+			   
+			   if(pepper == true) {
+				   
+				   limit += 1;
+				   pepper = false;
+			   }
+			   
+			   
+			   
+			   System.out.println("Would you like:   a. 1/8 cup    or    b. 1/4 cup ");
+	           amount = scan.nextLine();
+	           
+	           
+	           //checks input
+	           while( !((amount.equals("a")) || (amount.equals("b"))) ) {
+         			 
+         			 System.out.println("Your previous input was invalid, Input one of the letters that corresponds with your option.\n");
+         				
+         			  amount = scan.nextLine();
+         			 
+         		 }
+	           if(amount.equals("a")) { // adds cheese based on amount inputted
+	           	
+	           	pizzarecipe.add(ingredients.get(letteroptions.indexOf(option)) + " - " + " 1/8 cup");
+	           	  System.out.println(ingredients.get(letteroptions.indexOf(option)) + " - " + " 1/8 cup " + " has been added to the recipe.");
+	                 if(recipe.contains("greenpepper")) { // removes the ingredient if it is already maxed out in the pizza recipe
+	                 	
+	                 	 ingredients.remove(ingredients.get(letteroptions.indexOf(option))); // removes object after adding it to recipe
+	    				
+	                 }
+	           	recipe.add("greenpepper");
+	           	
+	           	
+	           	
+	           }
+	           else {
+	           	pizzarecipe.add(ingredients.get(letteroptions.indexOf(option)) + " - " + " 1/4 cup"); // adds to the pizza recipe that will be displayed to user
+	           	 System.out.println(ingredients.get(letteroptions.indexOf(option)) + " - " + " 1/4 cup " + " has been added to the recipe."); // ouputs to user what has been added
+	                 
+	           	recipe.add("greenpepper"); // adds to back end recipe array list 
+	           	recipe.add("greenpepper");// adds to back end recipe array list 
+	           	
+	//adds more based on amount, makes sure the user doesn't add more than 8 ingredients total (recipe will be checked but pizzarecipe is displayed) 
+	  
+          	
+	                 ingredients.remove(ingredients.get(letteroptions.indexOf(option))); // removes object after adding it to recipe
+
+	           	
+	           } 
+
+	           break;// ends statement of case
+				   
+				   
+				   
+			   
+			   
+			   // If the user attempts to add pepperoni            
+		   case "* Pepperoni	":  
+			   
+			   
+			   if(roni == true) {
+				   
+				   limit += 1;
+				   roni = false;
+			   }
+			   
+			   System.out.println("Would you like:   a. 2 pieces ,  b.  4 pieces , c.  6 pieces , d.  8 pieces \n");
+	           amount = scan.nextLine();
+	           
+	           //checks input
+	           while( !((amount.equals("a")) || (amount.equals("b")) || (amount.equals("c")) || (amount.equals("d"))) ) {
+         			 
+         			 System.out.println("Your previous input was invalid, Input one of the letters that corresponds with your option.\n");
+         				
+         			  amount = scan.nextLine();
+         			 
+         		 } 
+	            
+	           
+	           
+	           if(amount.equals("a")) { // adds cheese based on amount inputted
+	           	
+	           	pizzarecipe.add(ingredients.get(letteroptions.indexOf(option)) + " - " + " 2 pieces");
+	           	  System.out.println(ingredients.get(letteroptions.indexOf(option)) + " - " + " 2 pieces " + " have been added to the recipe.");
+	                 if(recipe.contains("Pepperoni")) { // removes the ingredient if it is already maxed out in the pizza recipe
+	                 	
+	                 	 ingredients.remove(ingredients.get(letteroptions.indexOf(option))); // removes object after adding it to recipe
+	    				
+	                 }
+	           	recipe.add("Pepperoni");
+	           	
+	           	
+	           	
+	           }
+	           else if(amount.equals("b")){
+	        	   
+	        	   	recipe.add("Pepperoni"); // adds to back end recipe array list 
+		           	recipe.add("Pepperoni");// adds to back end recipe array list 
+		           	
+		//adds more based on amount, makes sure the user doesn't add more than 8 ingredients total (recipe will be checked but pizzarecipe is displayed) 
+		           	
+		           	
+	           	pizzarecipe.add(ingredients.get(letteroptions.indexOf(option)) + " - " + " 4 pieces "); // adds to the pizza recipe that will be displayed to user
+	           	 System.out.println(ingredients.get(letteroptions.indexOf(option)) + " - " + "  4 pieces " + " have been added to the recipe."); // ouputs to user what has been added
+	                 
+	       
+	          	
+	                 ingredients.remove(ingredients.get(letteroptions.indexOf(option))); // removes object after adding it to recipe
+
+	           	
+	           } 
+	           else if(amount.equals("c")){
+	               
+		           	recipe.add("Pepperoni"); // adds to back end recipe array list 
+		           	recipe.add("Pepperoni");// adds to back end recipe array list 
+		        	recipe.add("Pepperoni");
+		//adds more based on amount, makes sure the user doesn't add more than 8 ingredients total (recipe will be checked but pizzarecipe is displayed) 
+		           	
+		        	
+		           	pizzarecipe.add(ingredients.get(letteroptions.indexOf(option)) + " - " + " 6 pieces "); // adds to the pizza recipe that will be displayed to user
+		           	 System.out.println(ingredients.get(letteroptions.indexOf(option)) + " - " + "  6 pieces " + " have been added to the recipe."); // ouputs to user what has been added
+		        
+		           
+		             
+		                 ingredients.remove(ingredients.get(letteroptions.indexOf(option))); // removes object after adding it to recipe
+
+		                 
+		           	
+		           } 
+	           else if(amount.equals("d")){
+	        	   
+	        	   recipe.add("Pepperoni"); // adds to back end recipe array list 
+		           	recipe.add("Pepperoni");// adds to back end recipe array list 
+		        	recipe.add("Pepperoni");
+		        	recipe.add("Pepperoni");
+		        	
+		           	pizzarecipe.add(ingredients.get(letteroptions.indexOf(option)) + " - " + " 8 pieces "); // adds to the pizza recipe that will be displayed to user
+		           	 System.out.println(ingredients.get(letteroptions.indexOf(option)) + " - " + "  8 pieces " + " have been added to the recipe."); // ouputs to user what has been added
+		                 
+		           	
+		//adds more based on amount, makes sure the user doesn't add more than 8 ingredients total (recipe will be checked but pizzarecipe is displayed) 
+		           	
+		                 ingredients.remove(ingredients.get(letteroptions.indexOf(option))); // removes object after adding it to recipe
+
+		           	
+		           } 
+
+	           break;// ends statement of case
+				   
+				   
+				   
+			   
+			   // If the user attempts to add mushrooms           
+		   case "* Sliced mushroom ":     
+		
+   
+			   
+			   if(mushroom == true) {
+				   
+				   limit += 1;
+				   mushroom = false;
+			   }		   
+			   
+			   System.out.println("Would you like:    a. 1/8 cup     or     b. 1/4 cup ");
+	           amount = scan.nextLine();
+	           
+	           
+	           //checks input
+	           while( !((amount.equals("a")) || (amount.equals("b")) ) ) {
+       			 
+       			 System.out.println("Your previous input was invalid, Input one of the letters that corresponds with your option.\n");
+       				
+       			  amount = scan.nextLine();
+       			 
+       		 }
+	           
+	           
+	           if(amount.equals("a")) { // adds cheese based on amount inputted
+	           	
+	           	pizzarecipe.add(ingredients.get(letteroptions.indexOf(option)) + " - " + " 1/8 cup");
+	           	  System.out.println(ingredients.get(letteroptions.indexOf(option)) + " - " + " 1/8 cup " + " has been added to the recipe.");
+	                 if(recipe.contains("Slicedmushroom")) { // removes the ingredient if it is already maxed out in the pizza recipe
+	                 	
+	                 	 ingredients.remove(ingredients.get(letteroptions.indexOf(option))); // removes object after adding it to recipe
+	    				
+	                 }
+	           	recipe.add("Slicedmushroom");
+	           	
+	           	
+	           	
+	           }
+	           else {
+	           	pizzarecipe.add(ingredients.get(letteroptions.indexOf(option)) + " - " + " 1/4 cup"); // adds to the pizza recipe that will be displayed to user
+	           	 System.out.println(ingredients.get(letteroptions.indexOf(option)) + " - " + " 1/4 cup " + " has been added to the recipe."); // ouputs to user what has been added
+	                 
+	           	recipe.add("Slicedmushroom"); // adds to back end recipe array list 
+	           	recipe.add("Slicedmushroom");// adds to back end recipe array list 
+	           	
+	//adds more based on amount, makes sure the user doesn't add more than 8 ingredients total (recipe will be checked but pizzarecipe is displayed) 
+	           	
+	                 ingredients.remove(ingredients.get(letteroptions.indexOf(option))); // removes object after adding it to recipe
+
+	           	
+	           } 
+
+	           break;// ends statement of case
+				   
+				   
+				   
+	           
+	           
+	           
+			   // If the user attempts to add diced jalapenos            
+		   case "* Diced jalapenos ":  
+		   
+			   
+			   if(jala == true) {
+				   
+				   limit += 1;
+				   jala = false;
+			   }
+			   System.out.println("Would you like:  a.  1/8 cup    or   b.1/4 cup ");
+	           amount = scan.nextLine();
+	         
+	           
+	           //checks input
+	           
+	           while( !((amount.equals("a")) || (amount.equals("b")) ) ) {
+       			 
+       			 System.out.println("Your previous input was invalid, Input one of the letters that corresponds with your option.\n");
+       				
+       			  amount = scan.nextLine();
+       			 
+       		 }
+	           
+	           
+	           if(amount.equals("a")) { // adds cheese based on amount inputted
+	           	
+	           	pizzarecipe.add(ingredients.get(letteroptions.indexOf(option)) + " - " + " 1/8 cup");
+	           	  System.out.println(ingredients.get(letteroptions.indexOf(option)) + " - " + " 1/8 cup " + " has been added to the recipe.");
+	                 if(recipe.contains("Dicedjalapenos")) { // removes the ingredient if it is already maxed out in the pizza recipe
+	                 	
+	                 	 ingredients.remove(ingredients.get(letteroptions.indexOf(option))); // removes object after adding it to recipe
+	    				
+	                 }
+	           	recipe.add("Dicedjalapenos");
+	           	
+	           	
+	           	
+	           }
+	           else {
+	           	pizzarecipe.add(ingredients.get(letteroptions.indexOf(option)) + " - " + " 1/4 cup"); // adds to the pizza recipe that will be displayed to user
+	           	 System.out.println(ingredients.get(letteroptions.indexOf(option)) + " - " + " 1/4 cup " + " has been added to the recipe."); // ouputs to user what has been added
+	                 
+	           	recipe.add("Dicedjalapenos"); // adds to back end recipe array list 
+	           	recipe.add("Dicedjalapenos");// adds to back end recipe array list 
+	           	
+	//adds more based on amount, makes sure the user doesn't add more than 8 ingredients total (recipe will be checked but pizzarecipe is displayed) 
+	           	
+	                 ingredients.remove(ingredients.get(letteroptions.indexOf(option))); // removes object after adding it to recipe
+
+	           	
+	           } 
+
+	           break;// ends statement of case
+				   
+				   
+				   
+	           
+	           
+			   
+			   // If the user attempts to add sardines           
+		   case "* Sardines": 
+			   
+			   
+			   if(sard == true) {
+				   
+				   limit += 1;
+				   sard = false;
+			   }
+			   
+			   System.out.println("Would you like: a. 1 sardine,   b. 2 sardines  , c. 3 sardines, d. 4 sardines\n");
+	           amount = scan.nextLine();
+	           
+	           
+	           //checks input
+	           while( !((amount.equals("a")) || (amount.equals("b")) || (amount.equals("c")) || (amount.equals("d"))) ) {
+       			 
+       			 System.out.println("Your previous input was invalid, Input one of the letters that corresponds with your option.\n");
+       				
+       			  amount = scan.nextLine();
+       			 
+       		 }
+	           
+	           
+	           if(amount.equals("a")) { // adds cheese based on amount inputted
+	           	
+	           	pizzarecipe.add(ingredients.get(letteroptions.indexOf(option)) + " - " + " 1 piece");
+	           	  System.out.println(ingredients.get(letteroptions.indexOf(option)) + " - " + " 1 piece " + " has been added to the recipe.");
+	                 if(recipe.contains("Sardines")) { // removes the ingredient if it is already maxed out in the pizza recipe
+	                 	
+	                 	 ingredients.remove(ingredients.get(letteroptions.indexOf(option))); // removes object after adding it to recipe
+	    				
+	                 }
+	           	recipe.add("Sardines");
+	           	
+	           	
+	           	
+	           }
+	           else if(amount.equals("b")){
+	        	   
+	        	   	recipe.add("Sardines"); // adds to back end recipe array list 
+		           	recipe.add("Sardines");// adds to back end recipe array list 
+		           	
+		//adds more based on amount, makes sure the user doesn't add more than 8 ingredients total (recipe will be checked but pizzarecipe is displayed) 
+		           	
+		           	
+	           	pizzarecipe.add(ingredients.get(letteroptions.indexOf(option)) + " - " + " 2 pieces "); // adds to the pizza recipe that will be displayed to user
+	           	 System.out.println(ingredients.get(letteroptions.indexOf(option)) + " - " + "  2 pieces " + " have been added to the recipe."); // ouputs to user what has been added
+	                 
+	          	
+	                 ingredients.remove(ingredients.get(letteroptions.indexOf(option))); // removes object after adding it to recipe
+
+	           	
+	           } 
+	           else if(amount.equals("c")){
+	               
+		           	recipe.add("Sardines"); // adds to back end recipe array list 
+		           	recipe.add("Sardines");// adds to back end recipe array list 
+		        	recipe.add("Sardines");
+		//adds more based on amount, makes sure the user doesn't add more than 8 ingredients total (recipe will be checked but pizzarecipe is displayed) 
+		           	
+		        	
+		           	pizzarecipe.add(ingredients.get(letteroptions.indexOf(option)) + " - " + " 3 pieces "); // adds to the pizza recipe that will be displayed to user
+		           	 System.out.println(ingredients.get(letteroptions.indexOf(option)) + " - " + "  3 pieces " + " have been added to the recipe."); // ouputs to user what has been added
+		        
+		                 ingredients.remove(ingredients.get(letteroptions.indexOf(option))); // removes object after adding it to recipe
+
+		           	
+		           } 
+	           else if(amount.equals("d")){
+	        	   
+	        	   recipe.add("Sardines"); // adds to back end recipe array list 
+		           	recipe.add("Sardines");// adds to back end recipe array list 
+		        	recipe.add("Sardines");
+		        	recipe.add("Sardines");
+		        	
+		           	pizzarecipe.add(ingredients.get(letteroptions.indexOf(option)) + " - " + " 4 pieces "); // adds to the pizza recipe that will be displayed to user
+		           	 System.out.println(ingredients.get(letteroptions.indexOf(option)) + " - " + "  4 pieces " + " have been added to the recipe."); // ouputs to user what has been added
+		                 
+		           	
+		//adds more based on amount, makes sure the user doesn't add more than 8 ingredients total (recipe will be checked but pizzarecipe is displayed) 
+		           	
+		                 ingredients.remove(ingredients.get(letteroptions.indexOf(option))); // removes object after adding it to recipe
+
+		           	
+		           } 
+
+	           break;// ends statement of case
+				   
+			   
+			   // If the user attempts to add pineaple chunks            
+		   case "* Pineapple Chunks ":  
+			   
+			   
+			   if(pine == true) {
+				   
+				   limit += 1;
+				   pine = false;
+			   }
+			   
+
+			   
+			   System.out.println("Would you like: a. 2 chunks, b. 4 chunks  , c. 6 chunks,  d. 8 chunks \n");
+	           amount = scan.nextLine();
+	           
+	           //checks input
+	           while( !((amount.equals("a")) || (amount.equals("b")) || (amount.equals("c")) || (amount.equals("d"))) ) {
+       			 
+       			 System.out.println("Your previous input was invalid, Input one of the letters that corresponds with your option.\n");
+       				
+       			  amount = scan.nextLine();
+       			 
+       		 }
+	           
+	           
+	           if(amount.equals("a")) { // adds cheese based on amount inputted
+	           	
+	           	pizzarecipe.add(ingredients.get(letteroptions.indexOf(option)) + " - " + " 2 chunks");
+	           	  System.out.println(ingredients.get(letteroptions.indexOf(option)) + " - " + " 2 chunks " + " have been added to the recipe.");
+	                 if(recipe.contains("PineappleChunks")) { // removes the ingredient if it is already maxed out in the pizza recipe
+	                 	
+	                 	 ingredients.remove(ingredients.get(letteroptions.indexOf(option))); // removes object after adding it to recipe
+	    				
+	                 }
+	           	recipe.add("PineappleChunks");
+	           	
+	           	
+	           	
+	           }
+	           else if(amount.equals("b")){
+	        	   
+	        	   	recipe.add("PineappleChunks"); // adds to back end recipe array list 
+		           	recipe.add("PineappleChunks");// adds to back end recipe array list 
+		           	
+		//adds more based on amount, makes sure the user doesn't add more than 8 ingredients total (recipe will be checked but pizzarecipe is displayed) 
+		           	
+		           	
+	           	pizzarecipe.add(ingredients.get(letteroptions.indexOf(option)) + " - " + " 4 chunks "); // adds to the pizza recipe that will be displayed to user
+	           	 System.out.println(ingredients.get(letteroptions.indexOf(option)) + " - " + "  4 chunks " + " have been added to the recipe."); // ouputs to user what has been added
+	                 
+	          	
+	                 ingredients.remove(ingredients.get(letteroptions.indexOf(option))); // removes object after adding it to recipe
+
+	           	
+	           } 
+	           else if(amount.equals("c")){
+	               
+		           	recipe.add("PineappleChunks"); // adds to back end recipe array list 
+		           	recipe.add("PineappleChunks");// adds to back end recipe array list 
+		        	recipe.add("PineappleChunks");
+		//adds more based on amount, makes sure the user doesn't add more than 8 ingredients total (recipe will be checked but pizzarecipe is displayed) 
+		           	
+		        	
+		           	pizzarecipe.add(ingredients.get(letteroptions.indexOf(option)) + " - " + " 6 chunks "); // adds to the pizza recipe that will be displayed to user
+		           	 System.out.println(ingredients.get(letteroptions.indexOf(option)) + " - " + "  6 chunks " + " have been added to the recipe."); // ouputs to user what has been added
+		        
+		                 ingredients.remove(ingredients.get(letteroptions.indexOf(option))); // removes object after adding it to recipe
+
+		           	
+		           } 
+	           else if(amount.equals("d")){
+	        	   
+	        	   recipe.add("PineappleChunks"); // adds to back end recipe array list 
+		           	recipe.add("PineappleChunks");// adds to back end recipe array list 
+		        	recipe.add("PineappleChunks");
+		        	recipe.add("PineappleChunks");
+		        	
+		           	pizzarecipe.add(ingredients.get(letteroptions.indexOf(option)) + " - " + " 8 chunks "); // adds to the pizza recipe that will be displayed to user
+		           	 System.out.println(ingredients.get(letteroptions.indexOf(option)) + " - " + "  8 chunks " + " have been added to the recipe."); // ouputs to user what has been added
+		                 
+		           	
+		//adds more based on amount, makes sure the user doesn't add more than 8 ingredients total (recipe will be checked but pizzarecipe is displayed) 
+		           	
+		                 ingredients.remove(ingredients.get(letteroptions.indexOf(option))); // removes object after adding it to recipe
+
+		           	
+		           } 
+
+	           break;// ends statement of case
+				   
+				   
+				   
+	           
+	           
+	           
+			   // If the user attempts to add tofu             
+		   case "* Tofu ":    
+		
+			   
+			   if(tofu == true) {
+				   
+				   limit += 1;
+				   tofu = false;
+			   }
+
+			   System.out.println("Would you like:    a. 1/8 cup or   b. 1/4 cup ");
+	           amount = scan.nextLine();
+	           
+	           //checks input
+	           while( !((amount.equals("a")) || (amount.equals("b"))) ) {
+       			 
+       			 System.out.println("Your previous input was invalid, Input one of the letters that corresponds with your option.\n");
+       				
+       			  amount = scan.nextLine();
+       			 
+       		 }
+	           
+	           
+	           if(amount.equals("a")) { // adds cheese based on amount inputted
+	           	
+	           	pizzarecipe.add(ingredients.get(letteroptions.indexOf(option)) + " - " + " 1/4 cup");
+	           	  System.out.println(ingredients.get(letteroptions.indexOf(option)) + " - " + " 1/4 cup " + " has been added to the recipe.");
+	                 if(recipe.contains("Tofu")) { // removes the ingredient if it is already maxed out in the pizza recipe
+	                 	
+	                 	 ingredients.remove(ingredients.get(letteroptions.indexOf(option))); // removes object after adding it to recipe
+	    				
+	                 }
+	           	recipe.add("Tofu");
+	           	
+	           	
+	           	
+	           }
+	           else {
+	           	pizzarecipe.add(ingredients.get(letteroptions.indexOf(option)) + " - " + " 1/8 cup"); // adds to the pizza recipe that will be displayed to user
+	           	 System.out.println(ingredients.get(letteroptions.indexOf(option)) + " - " + " 1/8 cup " + " has been added to the recipe."); // ouputs to user what has been added
+	                 
+	           	recipe.add("Tofu"); // adds to back end recipe array list 
+	           	recipe.add("Tofu");// adds to back end recipe array list 
+	           	
+	//adds more based on amount, makes sure the user doesn't add more than 8 ingredients total (recipe will be checked but pizzarecipe is displayed) 
+	           	
+	                 ingredients.remove(ingredients.get(letteroptions.indexOf(option))); // removes object after adding it to recipe
+
+	           	
+	           } 
+
+	           break;// ends statement of case
+				   
+				   
+				   
+			   // If the user attempts to add ham chunks           
+		   case "* Ham Chunks ":  
+			   
+			   
+			   if(ham == true) {
+				   
+				   limit += 1;
+				   ham = false;
+			   }
+			   
+			   
+
+			   
+			   System.out.println("Would you like:  a. 4 pieces , b. 8 pieces  , c. 12 pieces , d. 16 pieces \n");
+	           amount = scan.nextLine();
+	           
+	           //checks input
+	           while( !((amount.equals("a")) || (amount.equals("b")) || (amount.equals("c")) || (amount.equals("d"))) ) {
+       			 
+       			 System.out.println("Your previous input was invalid, Input one of the letters that corresponds with your option.\n");
+       				
+       			  amount = scan.nextLine();
+       			 
+       		 }
+	           
+	           
+	           if(amount.equals("a")) { // adds cheese based on amount inputted
+	           	
+	           	pizzarecipe.add(ingredients.get(letteroptions.indexOf(option)) + " - " + " 4 pieces");
+	           	  System.out.println(ingredients.get(letteroptions.indexOf(option)) + " - " + " 4 pieces " + " have been added to the recipe.");
+	                 if(recipe.contains("HamChunks")) { // removes the ingredient if it is already maxed out in the pizza recipe
+	                 	
+	                 	 ingredients.remove(ingredients.get(letteroptions.indexOf(option))); // removes object after adding it to recipe
+	    				
+	                 }
+	           	recipe.add("HamChunks");
+	           	
+	           	
+	           	
+	           }
+	           else if(amount.equals("b")){
+	        	   
+	        	   	recipe.add("HamChunks"); // adds to back end recipe array list 
+		           	recipe.add("HamChunks");// adds to back end recipe array list 
+		           	
+		//adds more based on amount, makes sure the user doesn't add more than 8 ingredients total (recipe will be checked but pizzarecipe is displayed) 
+		           	
+		           	
+	           	pizzarecipe.add(ingredients.get(letteroptions.indexOf(option)) + " - " + " 8 pieces "); // adds to the pizza recipe that will be displayed to user
+	           	 System.out.println(ingredients.get(letteroptions.indexOf(option)) + " - " + "  8 pieces " + " have been added to the recipe."); // ouputs to user what has been added
+	                 
+	          	
+	                 ingredients.remove(ingredients.get(letteroptions.indexOf(option))); // removes object after adding it to recipe
+
+	           	
+	           } 
+	           else if(amount.equals("c")){
+	               
+		           	recipe.add("HamChunks"); // adds to back end recipe array list 
+		           	recipe.add("HamChunks");// adds to back end recipe array list 
+		        	recipe.add("HamChunks");
+		//adds more based on amount, makes sure the user doesn't add more than 8 ingredients total (recipe will be checked but pizzarecipe is displayed) 
+		           	
+		        	
+		           	pizzarecipe.add(ingredients.get(letteroptions.indexOf(option)) + " - " + " 12 pieces "); // adds to the pizza recipe that will be displayed to user
+		           	 System.out.println(ingredients.get(letteroptions.indexOf(option)) + " - " + " 12 pieces" + " have been added to the recipe."); // ouputs to user what has been added
+		        
+		                 ingredients.remove(ingredients.get(letteroptions.indexOf(option))); // removes object after adding it to recipe
+
+		           	
+		           } 
+	           else if(amount.equals("d")){
+	        	   
+	        	   recipe.add("HamChunks"); // adds to back end recipe array list 
+		           	recipe.add("HamChunks");// adds to back end recipe array list 
+		        	recipe.add("HamChunks");
+		        	recipe.add("HamChunks");
+		        	
+		           	pizzarecipe.add(ingredients.get(letteroptions.indexOf(option)) + " - " + "  16 pieces "); // adds to the pizza recipe that will be displayed to user
+		           	 System.out.println(ingredients.get(letteroptions.indexOf(option)) + " - " + "   16 pieces " + " have been added to the recipe."); // ouputs to user what has been added
+		                 
+		           	
+		//adds more based on amount, makes sure the user doesn't add more than 8 ingredients total (recipe will be checked but pizzarecipe is displayed) 
+		           	
+		                 ingredients.remove(ingredients.get(letteroptions.indexOf(option))); // removes object after adding it to recipe
+
+		           	
+		           } 
+
+	           break;// ends statement of case
+				   
+				   
+				   
+	           
+	           
+	           
+	           
+			   
+			   // If the user attempts to adddry red pepper            
+		   case "* Dry red pepper ":  
+			   
+			   
+			   if(red == true) {
+				   
+				   limit += 1;
+				   red = false;
+			   }
+
+			   
+			   System.out.println("Would you like: a. 1 generous Sprinkle,  b. 2 generous sprinkles , c. 3  generous sprinkles , or d.  4 generous sprinkles\n");
+	           amount = scan.nextLine();
+	           
+	           
+	           
+	           //checks input
+	           while( !((amount.equals("a")) || (amount.equals("b")) || (amount.equals("c")) || (amount.equals("d"))) ) {
+       			 
+       			 System.out.println("Your previous input was invalid, Input one of the letters that corresponds with your option.\n");
+       				
+       			  amount = scan.nextLine();
+       			 
+       		 }
+	           
+	           
+	           if(amount.equals("a")) { // adds cheese based on amount inputted
+	           	
+	           	pizzarecipe.add(ingredients.get(letteroptions.indexOf(option)) + " - " + " 1 generous Sprinkle");
+	           	  System.out.println(ingredients.get(letteroptions.indexOf(option)) + " - " + "1 generous Sprinkle " + " have been added to the recipe.");
+	                 if(recipe.contains("Dryredpepper")) { // removes the ingredient if it is already maxed out in the pizza recipe
+	                 	
+	                 	 ingredients.remove(ingredients.get(letteroptions.indexOf(option))); // removes object after adding it to recipe
+	    				
+	                 }
+	           	recipe.add("Dryredpepper");
+	           	
+	           	
+	           	
+	           }
+	           else if(amount.equals("b")){
+	        	   
+	        	   	recipe.add("Dryredpepper"); // adds to back end recipe array list 
+		           	recipe.add("Dryredpepper");// adds to back end recipe array list 
+		           	
+		//adds more based on amount, makes sure the user doesn't add more than 8 ingredients total (recipe will be checked but pizzarecipe is displayed) 
+		           	
+		           	
+	           	pizzarecipe.add(ingredients.get(letteroptions.indexOf(option)) + " - " + " 2 generous sprinkles "); // adds to the pizza recipe that will be displayed to user
+	           	 System.out.println(ingredients.get(letteroptions.indexOf(option)) + " - " + "  2 generous sprinkles " + " have been added to the recipe."); // ouputs to user what has been added
+	                 
+	          	
+	                 ingredients.remove(ingredients.get(letteroptions.indexOf(option))); // removes object after adding it to recipe
+
+	           	
+	           } 
+	           else if(amount.equals("c")){
+	               
+		           	recipe.add("Dryredpepper"); // adds to back end recipe array list 
+		           	recipe.add("Dryredpepper");// adds to back end recipe array list 
+		        	recipe.add("Dryredpepper");
+		//adds more based on amount, makes sure the user doesn't add more than 8 ingredients total (recipe will be checked but pizzarecipe is displayed) 
+		           	
+		        	
+		           	pizzarecipe.add(ingredients.get(letteroptions.indexOf(option)) + " - " + " 3 generous sprinkles "); // adds to the pizza recipe that will be displayed to user
+		           	 System.out.println(ingredients.get(letteroptions.indexOf(option)) + " - " + "  3 generous sprinkles " + " have been added to the recipe."); // ouputs to user what has been added
+		        
+		                 ingredients.remove(ingredients.get(letteroptions.indexOf(option))); // removes object after adding it to recipe
+
+		           	
+		           } 
+	           else if(amount.equals("d")){
+	        	   
+	        	   recipe.add("Dryredpepper"); // adds to back end recipe array list 
+		           	recipe.add("Dryredpepper");// adds to back end recipe array list 
+		        	recipe.add("Dryredpepper");
+		        	recipe.add("Dryredpepper");
+		        	
+		           	pizzarecipe.add(ingredients.get(letteroptions.indexOf(option)) + " - " + " 4 generous sprinkles "); // adds to the pizza recipe that will be displayed to user
+		           	 System.out.println(ingredients.get(letteroptions.indexOf(option)) + " - " + " 4 generous sprinkles " + " have been added to the recipe."); // ouputs to user what has been added
+		                 
+		           	
+		//adds more based on amount, makes sure the user doesn't add more than 8 ingredients total (recipe will be checked but pizzarecipe is displayed) 
+		           	
+		                 ingredients.remove(ingredients.get(letteroptions.indexOf(option))); // removes object after adding it to recipe
+
+		           	
+		           } 
+
+	           break;// ends statement of case
+				   
+				   
+			   
+			   // If the user attempts to add ddry basil            
+		   case "* Dried basil ":  
+			   
+			   
+			   if(basil == true) {
+				   
+				   limit += 1;
+				   basil = false;
+			   } 
+			   
+  
+			   
+			   System.out.println("Would you like: a.  1 generous sprinkle  or  b. 2 generous sprinkles");
+	           amount = scan.nextLine();
+	           
+	           //checks input
+	           while( !((amount.equals("a")) || (amount.equals("b")) ) ) {
+       			 
+       			 System.out.println("Your previous input was invalid, Input one of the letters that corresponds with your option.\n");
+       				
+       			  amount = scan.nextLine();
+       			 
+       		 }
+	           
+	           if(amount.equals("a")) { // adds cheese based on amount inputted
+	           	
+	           	pizzarecipe.add(ingredients.get(letteroptions.indexOf(option)) + " - " + " 1 generous sprinkle");
+	           	  System.out.println(ingredients.get(letteroptions.indexOf(option)) + " - " + " 1 generous sprinkle " + " has been added to the recipe.");
+	                 if(recipe.contains("Driedbasil")) { // removes the ingredient if it is already maxed out in the pizza recipe
+	                 	
+	                  	 ingredients.remove(ingredients.get(letteroptions.indexOf(option))); // removes object after adding it to recipe
+	    				
+	                 }
+	           	recipe.add("Driedbasil");
+	           	
+	           	
+	           	
+	           }
+	           else {
+	           	pizzarecipe.add(ingredients.get(letteroptions.indexOf(option)) + " - " + " 2 generous sprinkles"); // adds to the pizza recipe that will be displayed to user
+	           	 System.out.println(ingredients.get(letteroptions.indexOf(option)) + " - " + " 2 generous sprinkles " + " have been added to the recipe."); // ouputs to user what has been added
+	                 
+	           	recipe.add("Driedbasil"); // adds to back end recipe array list 
+	           	recipe.add("Driedbasil");// adds to back end recipe array list 
+	           	
+	//adds more based on amount, makes sure the user doesn't add more than 8 ingredients total (recipe will be checked but pizzarecipe is displayed) 
+	           	
+	                 ingredients.remove(ingredients.get(letteroptions.indexOf(option))); // removes object after adding it to recipe
+
+	           	
+	           } 
+
+	           break;// ends statement of case
+				   
+				   
+				   
+			   
+			   
+			   
+			   
+			   
+		   }
+		   
+		   
+	
+	      System.out.println("\nWould you like to add another ingredient?(input n for no or press enter to continue)");
+	      go = scan.nextLine();
+	      
+	      if(go.equals("n")) {
+	    	  
+	    	  
+	    	  break;
+	      }
+	   }
+	   
+	   
+	 
+	   
+	  
+	
+	   
+	   
+	    
+	   
+	   for (int f = 0; f < pizzarecipe.size(); f++) {
+		 
+		   
+		   System.out.println(pizzarecipe.get(f));
+	   }
+	   
+	   
+	  
+	   
+	 System.out.println("\n* Pizza is to be appropriately cooked until crust is cooked and topping is fully warmed. *"); // Cook Pizza
+
+	 System.out.println("\n*Recipe Complete*\n");
+	
+	}
+	
+	
+	
+	/*
+	 
+
+Cooking: Pizza is to be appropriately cooked until crust is cooked and topping is fully warmed.
+
+	 
+	 */
+	
+	
+	
+}
