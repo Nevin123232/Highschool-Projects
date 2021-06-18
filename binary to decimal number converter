@@ -1,0 +1,30 @@
+# created in python
+from math import*
+
+
+def convertbinary(input):
+ decimal = 0
+ counter = -1
+
+ for x in range( len(input)-1, -1, -1):
+  counter = counter + 1
+  if input[x] == "1":
+    decimal = decimal + (pow(2,counter ))
+
+ 
+ return decimal
+
+def userinput():
+ binary = input("input a binary number:  ")
+ return binary
+
+def main():
+ inpute = userinput()
+ output = convertbinary(inpute)
+ print("The binary number in decimal is " + str(output))
+
+
+
+
+
+main()
