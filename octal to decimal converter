@@ -1,0 +1,31 @@
+from math import*
+
+#created in python
+
+
+def convertoctal(input):
+ octal = 0
+ counter = -1
+
+ for x in range(len(input)-1, -1, -1):
+  counter = counter + 1
+  
+  octal = octal + (float(input[x]) * (pow(8, counter))   )
+ 
+ 
+ return octal
+
+def userinput():
+ octal = input("input an octal number:  ")
+ return octal
+
+def main():
+ inpute = userinput()
+ output = convertoctal(inpute)
+ print("The octal number in decimal is " + str(output))
+
+
+
+
+
+main()
