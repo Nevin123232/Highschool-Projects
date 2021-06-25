@@ -1,0 +1,160 @@
+// Line equation finder (Perpendicular and parallel lines).cpp : This file contains the 'main' function. Program execution begins and ends there.
+//
+
+#include <iostream>
+using namespace std;
+void equation();
+void useagain();
+void useagain() {
+
+    cout << "\n Would you like to use this application again? (1 = yes) \n";
+    string yes;
+    cin >> yes; 
+
+    if (yes == "1") {
+
+        equation();
+
+    }
+    else cout << "\n Have a nice day \n";
+
+}
+void equation() {
+
+    bool e = true;
+
+
+    cout << "\nHello World!\n";
+
+    cout << "\nIs your line parallel (input a)  or perpendicular (input b)?\n ";
+    string p;
+    cin >> p;
+    bool  r = true;
+    while (r == true) {
+
+        if (p == "a") {
+            break;
+        }
+        if (p == "b") {
+            break;
+        }
+
+        cout << "\nInput a (if it is parallel) , Input b (if it is perpendicular)\n";
+        cin >> p;
+
+    }
+
+
+    if (p == "a") {
+        // Parallel line ???????
+        cout << "\n Input the slope (if it is parallel then it will be the same) \n ";
+        double slope;
+        cin >> slope;
+        cout << "\nInput the x coordinate \n";
+        double x;
+        cin >> x;
+        cout << "\nInput the y coordinate \n";
+        double y;
+        cin >> y;
+        cout << "\nComputing line equation .............. \n ";
+
+        // how a computer should get the equation
+
+        double intercept = -x * slope;
+
+
+
+
+        if (-y >= 0) {
+
+            intercept = intercept + y;
+
+        }
+        if (-y <= 0) {
+
+            intercept = intercept - -y;
+
+
+        }
+        if (-y == 0) {
+
+            intercept = intercept;
+
+        }
+
+        cout << "\n" << "Y =" << slope << "x " << " + " << intercept;
+
+        useagain();
+
+
+    }
+    if (p == "b") {
+        // perpendicular line?????/
+        cout << "\n You will have to input the slope so make sure that it is already changed to the negatove inverse \n";
+        cout << "\nInput the slope numerator\n";
+        double slopenumerator;
+        cin >> slopenumerator;
+        cout << "\nInput the slope denominator\n";
+        double slopedenominator;
+        cin >> slopedenominator;
+        cout << "\nInput the x coordinate \n";
+        double x;
+        cin >> x;
+        cout << "\nInput the y coordinate \n";
+        double y;
+        cin >> y;
+        cout << "\nComputing line equation .............. \n ";
+
+        // how a computer should get the equation
+
+        double slope = slopenumerator / slopedenominator;
+        double intercept = -x * slope;
+
+
+
+
+        if (-y >= 0) {
+
+            intercept = intercept - y;
+
+        }
+        if (-y <= 0) {
+
+            intercept = intercept + y;
+
+
+        }
+        if (-y == 0) {
+
+            intercept = intercept;
+
+        }
+
+        cout << "\n" << "Y =" << slope << "x " << " + " << intercept;
+
+        useagain();
+
+    }
+
+}
+
+
+
+int main()
+{
+    equation();
+
+    
+    
+}
+
+// Run program: Ctrl + F5 or Debug > Start Without Debugging menu
+// Debug program: F5 or Debug > Start Debugging menu
+
+// Tips for Getting Started: 
+//   1. Use the Solution Explorer window to add/manage files
+//   2. Use the Team Explorer window to connect to source control
+//   3. Use the Output window to see build output and other messages
+//   4. Use the Error List window to view errors
+//   5. Go to Project > Add New Item to create new code files, or Project > Add Existing Item to add existing code files to the project
+//   6. In the future, to open this project again, go to File > Open > Project and select the .sln file
