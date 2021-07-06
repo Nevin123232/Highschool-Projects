@@ -1,0 +1,2872 @@
+//Made in Java
+
+package quiz;
+
+  
+import java.util.*;
+
+import java.io.*;
+ 
+public class Quizlet {
+
+	/*SUMMARY INFORMATION
+
+
+	 * Programmer: Nevin Ndonwi  
+	 
+	 * Date Started: 7/3/2021
+	 * 
+	 * Date Finished: 7/6/2021
+	 */
+	
+	
+	// MORE SUMMARY INFORMATION 
+	//Quizlet Simulation version 2 (Java console application)
+	
+	/*Improvements
+	 * The previous quizlet simulator (Programmed in visual basic) 
+	 * could only store 5 questions and answers per session and the cards were not saved after use.
+	 * 
+	 * A mini pokemon translator was a feature of the previous project but will not be present on this project
+	 * 
+	 * (NEW IMPROVEMENTS)
+	 * Now it will be more like quizlet in the sense that:
+	 * your questions and answers will be saved after use, if specified
+	 * 
+	 * You can make as many questions and answers as you need,
+	 * and questions can be displayed in order or randomly during study mode
+	 *  
+	 * 
+	 * This is a console application and not a user interface
+	 */
+	
+	//PrintWriter appends text, do not use bufferedwriter to append text files
+	
+	
+	//Scanner object that gets user input
+	
+	
+	
+	/*PROGRAM EXECUTION STUFF
+	 * 
+	 * FIRST SESSION WITH THIS APPLICATION
+	 * 
+	 * Input questions/answers in order to create flashcards
+	 * 
+	 * Study with them in testmode or learnmode
+	 * 
+	 * file them (so you can use them later)
+	 * 
+	 * Repeat until done studying
+	 * 
+	 * 
+	 * 
+	 * 
+	 * SECOND (AND BEYOND) SESSION WITH THIS APPLICATION
+	 * 
+	 * Input questions or use the questions you filed during your previous session
+	 * 
+	 * Study
+	 * 
+	 * If you input new questions you can add them to the file containing your old questions as well
+	 * 
+	 
+	 * 
+	 */
+	static Scanner input = new Scanner(System.in);
+	
+	 
+	public static void main(String[] args) {
+		
+		
+        //Introducing the quizlet simulation and generating the cards based on user input.
+		
+		//informs the user of the application
+		System.out.println("\n*****Welcome to this Quizlet Console application simulator*****\n\n");
+		
+		//check if the user already has a file of questions and answers from a previous session
+		
+		System.out.println("\nDo you have a file of questions and answers from your previous session?(input y for yes)\n");
+		
+		String x = input.nextLine();
+		
+		String data = "";
+		
+		if(x.equals("y")) {
+			
+			System.out.println("\nInput the name of the file you saved your questions as(the .txt extension will be added automatically)\n");
+			
+			 String test =  input.nextLine(); 
+			
+ 
+		 		while( true ) {
+		 			
+		 			if( !(test.equals("")) && nameLegitimizer(test) ) {
+
+		 				break;
+		 			}
+		 			else {
+		 				
+		 				System.out.println("\nINVALID INPUT(Try again)\n");
+		 				test = input.nextLine();
+		 			}
+		 		}
+		 		
+			 String pqfile = test + ".txt";
+			 
+			 File pquestions = new File(pqfile); //previous file of this information
+			 
+			 
+			 
+			 
+			 
+			 
+			 
+			 
+				System.out.println("\nInput the name of the file you saved your answers as(the .txt extension will be added automatically)\n");
+				
+				 String test1 =  input.nextLine(); 
+				
+	 
+			 		while( true ) {
+			 			
+			 			if( !(test1.equals("")) && nameLegitimizer(test1) ) {
+
+			 				break;
+			 			}
+			 			else {
+			 				
+			 				System.out.println("\nINVALID INPUT(Try again)\n");
+			 				test1 = input.nextLine();
+			 			}
+			 		}
+			 		
+				 String pafile = test1 + ".txt";
+				 
+				 File panswers = new File(pafile); //previous file of this information
+				 
+				 
+				 
+				 
+				 
+				 
+			 if(pquestions.exists()) {
+
+				 ArrayList<String> prevq = new ArrayList<String>();
+				 
+				 
+				 try {
+					 
+					 System.out.println("\nHere is your previous question data:\n");
+				      
+				      Scanner recuperate = new Scanner(pquestions);
+				      while (recuperate.hasNextLine()) {
+				         data = recuperate.nextLine();
+				         
+				         data.split("\n"); //gets rid of newline character when the line is extracted from the file
+				         
+				        prevq.add(data);
+				        System.out.println(data);
+				        
+				       
+				      }
+				      recuperate.close();
+				      
+				      
+				      
+				      System.out.println("\nHere is your previous Answer data:\n");
+				      
+				      //arraylist of previous answers
+				      ArrayList<String> preva = new ArrayList<String>();
+				      
+						 try {
+						      
+							 
+							 if( !(panswers.exists()) ) {
+								 
+								 System.out.println("\nYour previous list of answers is unable to be found, ending this process\n");
+							 }
+							 else {
+						      Scanner reget = new Scanner(panswers);
+						      while (reget.hasNextLine()) {
+						         data = reget.nextLine();
+						         
+						         data.split("\n"); //gets rid of newline character when the line is extracted from the file
+							       
+						         
+						         
+						        preva.add(data); //puts previous info in arraylist of the file contents
+						        System.out.println(data); //outputs file contents
+						        
+						        
+						        
+						        
+						      }
+						      reget.close();
+						      
+						      
+						      //study with your old questions and answers
+						      
+						      
+							    System.out.println("\nThere are 2 study modes [test mode and learn mode]");
+							    System.out.println("\nTest mode: You are tested on your knowledge/memorization on the cards. "
+							    		+ "\nStudy mode: You are tested but no score/percentage is calculated. You continue practicing until you get the questions right.");
+							    
+							    
+							    
+							    
+							    System.out.println("\nWhich study mode would you like to start?[test mode (input a) and learn mode(input b)]\n");
+							    
+							    String mode = input.nextLine();
+							    
+							    
+							    double[] grade = new double[3];
+							    
+							    while(true) {
+							    	
+							    	if(mode.equals("a")) {
+							    		
+							    		break;
+							    		
+							    		
+							    	}
+							    	else if(mode.equals("b")) {
+							    		
+							    	break;
+							    		
+							    		
+							    		
+							    	}
+							    	else {
+							    		
+							    		System.out.println("Your previous input was invalid please input a or b. [test mode (input a) or learn mode(input b)]");
+							    		
+							    		mode = input.nextLine();
+							    		
+							    	}
+							    }
+							     
+							    
+							    String play = "y";
+							    
+							    //studymode
+							    while(true) {
+							    
+						    	if(mode.equals("a")) {
+						    		
+						    		
+						    		System.out.println("\n\nEntering test mode \n\n");
+						    		
+						    		
+						    		//calls testmode function(test form of studying)
+						    		grade = testmode(prevq,preva);
+						    		
+						    		
+						    		System.out.println("\nHere is the amount you got correct:  " + grade[0]);
+					    			System.out.println("\nHere is the amount you got wrong: " + grade[1]);
+					    			System.out.println("\nHere is the amount you got here is your percentage: " + (int)grade[2] + "%");
+					    		
+					    		
+					    		
+					    			
+					    			
+						    		System.out.println("\nWould you like to keep studying these terms(input y for yes)??\n");
+						    		play = input.nextLine();
+						    		
+						    		
+						    		if( !play.equals("y")) {
+						    			
+						    			System.out.println("\nHave a nice day!!!\n");
+						    			System.exit(0);
+						    			
+						    		}
+						    		
+						    		
+						    		
+						    	}
+						    	else if(mode.equals("b")) {
+						    		
+						    		System.out.println("\n\nEntering Learn mode \n\n");
+						    		
+						    		//calls learnmode function(learnmode form of studying)
+						    		learnmode(prevq,preva);
+						    		
+
+						    		System.out.println("\nWould you like to keep studying these terms(input y for yes)??\n");
+						    		play = input.nextLine();
+						    		
+						    		
+						    		if( !play.equals("y")) {
+						    			
+						    			System.out.println("\nHave a nice day!!!\n");
+						    			System.exit(0);
+						    			
+						    		}
+						    		
+						    		
+						    	}
+						    	else if(mode.equals("c")) {
+						    		
+						    		System.out.println("\nHave a nice day\n");
+						    		System.exit(0);
+						    		
+						    		
+						    	}
+						    	System.out.println("\nWhich Study-mode would you like to use now[input a for testmode],[input b for learnmode], [input c to close the application]??\n");
+					    		
+						    	mode = input.nextLine();
+					    		
+						    	 while(true) {
+								    	
+								    	if(mode.equals("a")) {
+								    		
+								    		break;
+								    		
+								    		
+								    	}
+								    	else if(mode.equals("b")) {
+								    		
+								    	break;
+								    		
+								    		
+								    		
+								    	}
+								    	else if(mode.equals("c")) {
+								    		
+									    	break;
+									    		
+									    		
+									    		
+									    }
+								    	else {
+								    		
+								    		System.out.println("Your previous input was invalid please input a or b. [test mode (input a) or learn mode(input b)]");
+								    		
+								    		mode = input.nextLine();
+								    		
+								    	}
+								    }
+						    	 
+						    	 
+						    	 
+						    	 
+							    
+							    
+							    }
+							 
+						      
+						      
+						      
+						      
+						      
+						      
+						      
+						      
+						      
+						      
+						      
+							 }
+							 
+							 
+							 
+						    } catch (Exception e) {
+						      System.out.println("An error occurred recuperating your previous data.");
+						      e.printStackTrace();
+						    }
+					
+				      
+				      
+				      
+				      
+				      
+				    } catch (Exception e) {
+				      System.out.println("An error occurred recuperating your previous data.");
+				      e.printStackTrace();
+				    }
+			
+			
+			
+				 
+			 }
+			 else {
+				 
+				 System.out.println("\nYour previous information is unable to be found\n");
+				 System.out.println("\nEnding the file recuperation process\n");
+				 
+				
+			 }
+			
+			 
+			 
+			 
+		}
+		
+		
+		
+		System.out.println("In this application, you (the user) will input:\n- how many questions/ vocab terms you would like to study.\n"
+				+ "- vocab terms/questions and the definitions/answers." + "\n- your customizations for study mode");
+		
+		System.out.println("\n\nThis application is essentially "
+				+ "like a flashcard generator, you(the user) provides the sh"
+				+ "own side and hidden side for the flash cards,\nthen a study mode is"
+				+ " activates where you can study utilising the cards you have created.");
+		
+	    System.out.println("\nWould you like to start using this application?(Input n for no)");
+	    
+	    String start = input.nextLine();
+	    
+	    if(start.equals("n")) {
+	    	
+	    	System.out.println("\nHave a nice day!!!!\n");
+	    	
+	    	System.exit(0);
+	    }
+	    else {
+	    	
+	    	System.out.println("\nTime to start the application!!!!\n");
+	    	
+	    	
+	    }
+	    
+	    
+	    //gets a string value of how many cards to create
+	    System.out.println("How many flash cards would you like to create today? (You must input at least 2)\n");
+	    
+	    String amount = input.nextLine();
+	    
+	    
+	    //traps program in while loop until the user inputs a legitimate input
+	    while( true  ) {
+	    	
+	    	if(numberLegitimizer(amount)) {
+	    		
+
+		    	if( amount.equals("0") || amount.equals("1") || amount.equals("")){
+		    		
+		    		
+		    	}
+		    	else {
+		    		
+		    		break;
+		    	}
+	    	}
+	    	
+	    	
+	    	
+	    	
+	    	System.out.println("\nInput a number please (Your previous input was invalid)\n");
+	    	
+	    	amount = input.nextLine();
+	    	
+	    	
+	    }
+	    
+	    System.out.println("\nYou are going to create " + amount + " cards today.\n");
+	   
+	    int cards = Integer.parseInt(amount);
+	    
+	    //has the shown sides of the cards
+	    ArrayList<String> questions = new ArrayList<String>();
+	    
+	    
+	    // has the hidden sides of the cards
+	    ArrayList<String> answers = new ArrayList<String>();
+	    
+	    //Initialization of the array that will contain the (shown side) and (hidden side) of a flashcard obtained from cardmaker function
+	    String[] newcard = new String[2];
+	    
+	    
+	    
+	    //goes to card functions and adds the shown side and hidden side of flashcards to the hidden
+	    // and shown side of the arraylists(respectively)
+
+	    for(int i = 0; i < cards; i++) {
+	    	
+	    	//array of the shown side and hidden side of a card is obtained
+	    	newcard = cardmaker(questions.size());
+	    	//shown side is added to questions array list(which can be resized resulting in the user being able to create as many questions as needed
+	    	questions.add(newcard[0]);
+	    	//shown side is added to questions array list(which can be resized resulting in the user being able to create as many answers as needed
+	    	answers.add(newcard[1]);
+	    	
+	    }
+	   
+	    
+	    
+	    
+	    
+	    System.out.println("You have created " + amount + " cards, would you like to create more? (Input y for yes)");
+	    
+	    String more = input.nextLine();
+	    
+	    if(more.equals("y")) {
+	    	
+	    	System.out.println("\nHow many more cards would you like to create?\n");
+	    	
+	    	 amount = input.nextLine();
+	 	    
+	 	    
+	 	    //traps program in while loop until the user inputs a legitimate input
+	    	    while( true  ) {
+	    	    	
+	    	    	if(numberLegitimizer(amount)) {
+	    	    		
+
+	    	    		if(  amount.equals("")){
+	    		    		
+	    		    		
+	    		    	}
+	    		    	else {
+	    		    		
+	    		    		break;
+	    		    	}
+	    	    	}
+	    	    	
+	    	    	
+	    	    	
+	    	    	
+	    	    	System.out.println("\nInput a number please (Your previous input was invalid)\n");
+	    	    	
+	    	    	amount = input.nextLine();
+	    	    	
+	    	    	
+	    	    }
+	    	    //updates the cards variable with the new amount of cards the user needs
+	    	    cards = Integer.parseInt(amount);
+
+		    for(int i = 0; i < cards; i++) {
+		    	
+		    	//array of the shown side and hidden side of a card is obtained
+		    	newcard = cardmaker(questions.size());
+		    	//shown side is added to questions array list(which can be resized resulting in the user being able to create as many questions as needed
+		    	questions.add(newcard[0]);
+		    	//shown side is added to questions array list(which can be resized resulting in the user being able to create as many answers as needed
+		    	answers.add(newcard[1]);
+		    	
+		    }
+		   
+		    
+	    }
+		    System.out.println("\nNo more cards can be created\n");
+		    
+		    
+		    
+		    
+		    System.out.println("\nEntering Study Mode\n");
+		    
+		    
+		    System.out.println("\nIn this mode you will be presented with the shown side of a card (what you input as the shown side) \n"
+		    		+ "and you will guess what you inputted as the correct side. (Like what quizlet has for flashcards) ");
+		    
+
+		    System.out.println("\nPress enter to continue\n");
+		    input.nextLine();
+		    
+		    System.out.println("You will then input your guess on what the hidden side of the card is."
+		    		+ "\n\nThe computer will record your overall score and percentage");
+		    
+
+		    System.out.println("\nPress enter to continue\n");
+		    input.nextLine();
+		    
+		    System.out.println("\nReady to start?  (Press enter to continue)");
+
+		
+		    input.nextLine();
+		    
+		    System.out.println("\nThere are 2 study modes [test mode and learn mode]");
+		    System.out.println("\nTest mode: You are tested on your knowledge/memorization on the cards. "
+		    		+ "\nStudy mode: You are tested but no score/percentage is calculated. You continue practicing until you get the questions right.");
+		    
+		    
+		    
+		    
+		    System.out.println("\nWhich study mode would you like to start?[test mode (input a) and learn mode(input b)]\n");
+		    
+		    String mode = input.nextLine();
+		    
+		    
+		    double[] grade = new double[3];
+		    
+		    while(true) {
+		    	
+		    	if(mode.equals("a")) {
+		    		
+		    		break;
+		    		
+		    		
+		    	}
+		    	else if(mode.equals("b")) {
+		    		
+		    	break;
+		    		
+		    		
+		    		
+		    	}
+		    	else {
+		    		
+		    		System.out.println("Your previous input was invalid please input a or b. [test mode (input a) or learn mode(input b)]");
+		    		
+		    		mode = input.nextLine();
+		    		
+		    	}
+		    }
+		    
+
+	    	if(mode.equals("a")) {
+	    		
+	    		
+	    		System.out.println("\n\nEntering test mode \n\n");
+	    		
+	    		
+	    		//calls testmode function(test form of studying)
+	    		grade = testmode(questions,answers);
+	    	
+	    			
+	    			System.out.println("\nHere is the amount you got correct:  " + grade[0]);
+	    			System.out.println("\nHere is the amount you got wrong: " + grade[1]);
+	    			System.out.println("\nHere is the amount you got here is your percentage: " + (int)grade[2] + "%");
+	    		
+	    		
+	    		
+	    		
+	    		
+	    	}
+	    	else if(mode.equals("b")) {
+	    		
+	    		System.out.println("\n\nEntering Learn mode \n\n");
+	    		
+	    		//calls learnmode function(learnmode form of studying)
+	    		learnmode(questions,answers);
+	    		
+	    		
+	    		
+	    		
+	    	}
+		    
+		   
+		    
+		 
+	        while(true) {
+		    	
+		    	if(mode.equals("a")) {
+		    		
+		    		break;
+		    		
+		    		
+		    	}
+		    	else if(mode.equals("b")) {
+		    		
+		    	break;
+		    		
+		    		
+		    		
+		    	}
+		    	else {
+		    		
+		    		System.out.println("Your previous input was invalid please input a or b. [test mode (input a) or learn mode(input b)]");
+		    		
+		    		mode = input.nextLine();
+		    		
+		    	}
+		    }
+		     
+		
+	    	 
+  
+			//continue????
+			 
+			
+		if(useagain() == false) { //It's false if the user wishes to end the program     
+				
+				//save the questions and answers
+				
+				System.out.println("Would you like to save the sides of your flashcards in a file? (input y for yes)");
+				
+				String save = input.nextLine();
+				
+				
+				//if the user wants to save
+			if(save.equals("y")) {
+			 		
+			 		System.out.println("Input the name of the file where you would like to store your quizlet questions(Shown side of the card). \n*(the '.txt. extension will be added automatically)\n");
+			 		String questionsfile = input.nextLine();
+			 		
+			 		
+			   while( true ) {
+			 			
+			 			if( !(questionsfile.equals("")) && nameLegitimizer(questionsfile) ) {
+
+			 				break;
+			 			}
+			 			else {
+			 				
+			 				System.out.println("\nINVALID INPUT (Try again)\n");
+				 			questionsfile = input.nextLine();
+			 			}
+			 			
+			 			
+			 			
+			 			
+			 			
+			 			
+			 		}
+			 		
+			 		
+			 		
+				 		 questionsfile = questionsfile + ".txt";
+			 		
+			 		//file where questions will be stored
+			 		File qfile = new File(questionsfile);
+			 		
+			 	 if(qfile.exists()) {
+			           System.out.println("This file currently exists in your computer, would you like to:\n- Replace that file's text with the questions"
+			           		+ " used in this quizlet session.(Input a)\n- add the questions used in this session to the file (without deleting previous information)(Input b)"
+			           		+ "\n- Do Not save the questions or answers in this quizlet simulation.(Input c)");
+			           
+			           
+			           String choice = input.nextLine();
+			           
+			           
+			           while(true) {
+			        	   
+			        	   
+			        	   if(choice.equals("a")) {
+			        	   
+			        	   break;
+			        	   }
+			           
+			        	   else if(choice.equals("b")) {
+			        	   break;
+			        	   
+			        	   }
+			        	   else if(choice.equals("c")) {
+			        	   break; 
+			        	   
+			        	   }
+			        	   else {
+			        	   
+			        		   System.out.println("Your previous input was invalid, please input a,b,or c.");
+			        	   }
+			           
+			           }
+			           
+			           
+			           
+			           
+			         if(choice.equals("a")) { //overwrite questions file
+			        	   
+			        	   //filing questions
+			        	   try {
+			        		   //file writer that can write into the file that will fille questions used in this program
+			        		   FileWriter questionwriter = new FileWriter(qfile);
+			        		   for(int r = 0; r < questions.size(); r++) {
+			        			   
+			        			   questionwriter.write(questions.get(r) + "\n");
+			        			   
+			        			   
+			        		   }
+			        		   
+			        		   questionwriter.close(); //closes question writer
+			        	   }
+			        	   catch(Exception ex) {
+			        		   
+			        		 System.out.println("\nAn Exception occured\n") ; 
+			        		   
+			        		   
+			        	   }
+			        	   
+			        	   
+			        	   System.out.println("Your questions have been filed!! (It has overwritten the previous contents)\n");
+			        		  
+			        	   
+			        	   
+			        	   
+			        	   
+			        	   
+			        	   
+			        	   
+			        	   
+			        	   
+			        	   
+			        	   
+			        	   
+			        	   //filing answers
+			        		System.out.println("Input the name of the file where you would like to store your quizlet answers.(Hidden side of the card)");
+					 		
+					 		String answersfile = input.nextLine();
+			        	   
+					 		
+					 		
+					 		
+					 		while( true ) {
+					 			
+					 			if( !(answersfile.equals(questionsfile)) && !(answersfile.equals("")) && nameLegitimizer(answersfile) ) {
+
+					 				break;
+					 			}
+					 			else {
+					 				
+					 				System.out.println("\nINVALID INPUT (Try again)\n");
+					 				answersfile = input.nextLine();
+					 			}
+					 			
+					 			
+					 			
+					 			
+					 			
+					 			
+					 		}
+					 		
+					 		
+					 		
+					 		answersfile = answersfile + ".txt";
+					 		
+					 		//file where answers will be stored
+					 		File afile = new File(answersfile);
+					 		
+		    if(afile.exists()) {
+					           System.out.println("This file currently exists in your computer, would you like to:\n- Replace that file's text with the answers"
+					           		+ " used in this quizlet session.(Input a)\n- add the questions used in this session to the file (without deleting previous information)(Input b)"
+					           		);
+					           
+					           
+					           String f = input.nextLine();
+					           
+					           
+					           while(true) {
+					           if(f.equals("a")) {
+					        	   
+					        	   break;
+					           }
+					           else if(f.equals("b")) {
+					        	   break;
+					        	   
+					           }
+					           else {
+					        	   
+					        	  System.out.println("Your previous input was invalid, please input a or b.");
+					           }
+					           
+					           }
+					           
+					           
+					           
+					           
+					           if(f.equals("a")) { //overwrite file
+					        	   
+					        	   //filing questions
+					        	   try {
+					        		   //file writer that can write into the file that will fille questions used in this program
+					        		   FileWriter answerwriter = new FileWriter(afile);
+					        		   for(int r = 0; r < answers.size(); r++) {
+					        			   
+					        			   answerwriter.write(answers.get(r) + "\n");
+					        			   
+					        			   
+					        		   }
+					        		   
+					        		   answerwriter.close(); //closes answerwriter writer
+					        		   
+					        	   }
+					        	   catch(Exception ex) {
+					        		   
+					        		 System.out.println("\nAn Exception occured\n") ; 
+					        		   
+					        		   
+					        	   }
+					        	   
+					        	   
+					        	   System.out.println("Your answers have been filed!! (It has overwritten the previous contents)\n");
+					        		  
+					 		
+					 		
+					 		
+					 		
+					 		
+					 		
+					 		
+					 		
+					 		
+					 		
+					 		
+					 		
+					 		
+			        	
+			           }
+			           else if(f.equals("b")) { //append file 
+			        	  //filing questions
+			        	   
+			        	   try {
+			        		   
+			        		   
+			        		   
+			        		   //file writer that can write into the file that will file questions used in this program
+			        		   
+			        		   //makes it to the file is appendable
+			        		   FileWriter answerwriter = new FileWriter(afile,true);
+			        		   
+			        		   //writed into file writer in order to append text
+			        		   PrintWriter bw = new PrintWriter(answerwriter);
+			        		   
+			        		   
+			        		   for(int g = 0; g < answers.size(); g++) {
+			        			   
+			        			   bw.write(answers.get(g)+ "\n");
+			        			   
+			        		   }
+			        			   
+			        		   
+			        		   answerwriter.close();
+			        		   bw.close();
+			        	   }
+			        	   catch(Exception w) {
+			        		   
+			        		 System.out.println("\nAn Exception occured\n") ; 
+			        		   
+			        		   
+			        	   }
+			        	   
+			        	   
+			        	  
+   
+			        	   
+			           }
+			           
+			           
+			         }
+			 	   else {
+			 		   
+			 		   
+			 		   //filing questions
+		        	   try {
+		        		   //file writer that can write into the file that will file questions used in this program
+		        		   FileWriter answerwriter = new FileWriter(afile);
+		        		   
+		        		   for(int d = 0; d < answers.size(); d++) {
+		        			   
+		        			   answerwriter.write(answers.get(d) + "\n");
+		        			   
+		        			   
+		        		   }
+		        		   
+		        		   answerwriter.close(); //closes answerwriter
+		        	   }
+		        	   catch(Exception s) {
+		        		   
+		        		 System.out.println("\nAn Exception occured\n") ; 
+		        		   
+		        		   
+		        	   }
+		        	   
+		        	   
+		        	   System.out.println("Your answers have been filed!! (It has overwritten the previous contents)\n");
+		        		  
+		        	  
+			 		   
+			 		   
+			 		   
+			 	   }
+			 		
+			 	
+			 		
+			 		
+			 		
+			 		
+			 	
+			 	
+			 
+			}
+		 else if(choice.equals("b"))        { // appending the questions file if it exists
+			        	 
+			//append questions file
+      	   
+      	   //filing questions
+      	   try {
+      		   //file writer that can write into the file that will fille questions used in this program
+      		   FileWriter questionwriter = new FileWriter(qfile,true);
+      		   PrintWriter bw = new PrintWriter(questionwriter);
+      		   
+      		   
+      		   for(int r = 0; r < questions.size(); r++) {
+      			   
+      			   bw.write(questions.get(r) + "\n");
+      			   
+      			   
+      		   }
+      		   
+      		   //closes filewriters
+      		   questionwriter.close();
+      		   bw.close();
+      	   }
+      	   catch(Exception ex) {
+      		   
+      		 System.out.println("\nAn Exception occured\n") ; 
+      		   
+      		   
+      	   }
+      	   
+      	   
+      	   System.out.println("Your questions have been filed!! (It has been added to the previous contents)\n");
+      		  
+      	   
+      	   
+      	   
+      	   
+      	   
+      	   
+      	   
+      	   
+      	   
+      	   
+      	   
+      	   
+      	   //filing answers
+      		System.out.println("Input the name of the file where you would like to store your quizlet answers.(Hidden side of the card)");
+		 		
+		 		String answersfile = input.nextLine();
+      	   
+		 		
+		 		
+		 		
+		 		while( true ) {
+		 			
+		 			if( !(answersfile.equals(questionsfile)) && !(answersfile.equals("")) && nameLegitimizer(answersfile)  ) {
+
+		 				break;
+		 			}
+		 			else {
+		 				
+		 				System.out.println("\nINVALID INPUT (Try again)\n");
+		 				answersfile = input.nextLine();
+		 			}
+		 			
+		 			
+		 			
+		 			
+		 			
+		 			
+		 		}
+		 		
+		 		
+		 		
+		 		answersfile = answersfile + ".txt";
+		 		
+		 		//file where answers will be stored
+		 		File afile = new File(answersfile);
+		 		
+if(afile.exists()) {
+		           System.out.println("This file currently exists in your computer, would you like to:\n- Replace that file's text with the answers"
+		           		+ " used in this quizlet session.(Input a)\n- add the questions used in this session to the file (without deleting previous information)(Input b)"
+		           		);
+		           
+		           
+		           String f = input.nextLine();
+		           
+		           
+		           while(true) {
+		           if(f.equals("a")) {
+		        	   
+		        	   break;
+		           }
+		           else if(f.equals("b")) {
+		        	   break;
+		        	   
+		           }
+		           else {
+		        	   
+		        	  System.out.println("Your previous input was invalid, please input a or b.");
+		           }
+		           
+		           }
+		           
+		           
+		           
+		           
+		           if(f.equals("a")) { //overwrite file
+		        	   
+		        	   //filing answers
+		        	   try {
+		        		   //file writer that can write into the file that will fille answers used in this program
+		        		   FileWriter answerwriter = new FileWriter(afile);
+		        		   for(int r = 0; r < answers.size(); r++) {
+		        			   
+		        			   answerwriter.write(answers.get(r) + "\n");
+		        			   
+		        			   
+		        		   }
+		        		   
+		        		   answerwriter.close();
+		        	   }
+		        	   catch(Exception ex) {
+		        		   
+		        		 System.out.println("\nAn Exception occured\n") ; 
+		        		   
+		        		   
+		        	   }
+		        	   
+		        	   
+		        	   System.out.println("Your answers have been filed!! (It has overwritten the previous contents)\n");
+		        		  
+		 		
+		 		
+		 		
+		 		
+		 		
+		 		
+		 		
+		 		
+		 		
+		 		
+		 		
+		 		
+		 		
+      	
+         }
+         else if(f.equals("b")) { //append file 
+      	  //filing questions
+      	   
+      	   try {
+      		   
+      		   
+      		   
+      		   //file writer that can write into the file that will file questions used in this program
+      		   
+      		   //makes it to the file is appendable
+      		   FileWriter answerwriter = new FileWriter(afile,true);
+      		   
+      		   //writed into file writer in order to append text
+      		   PrintWriter bw = new PrintWriter(answerwriter);
+      		   
+      		   
+      		   for(int g = 0; g < answers.size(); g++) {
+      			   
+      			   bw.write(answers.get(g)+ "\n");
+      			   
+      		   }
+      			   
+      		   bw.close();
+      		   answerwriter.close();
+      	   }
+      	   catch(Exception w) {
+      		   
+      		 System.out.println("\nAn Exception occured\n") ; 
+      		   
+      		   
+      	   }
+      	   
+      	   
+      	  
+
+      	   
+         }
+         
+         
+       }
+	   else {
+		   
+		   
+		   //filing questions
+  	   try {
+  		   //file writer that can write into the file that will file questions used in this program
+  		   FileWriter answerwriter = new FileWriter(afile);
+  		   
+  		   for(int d = 0; d < answers.size(); d++) {
+  			   
+  			   answerwriter.write(answers.get(d) + "\n");
+  			   
+  			   
+  		   }
+  		   answerwriter.close();
+  		   
+  	   }
+  	   catch(Exception s) {
+  		   
+  		 System.out.println("\nAn Exception occured\n") ; 
+  		   
+  		   
+  	   }
+  	   
+  	   
+  	   System.out.println("Your answers have been filed!! (It has overwritten the previous contents)\n");
+  		  
+  	  
+		   
+		   
+		   
+	   }
+		
+	
+		
+			 
+			 
+			 
+			 
+			        	 
+			       }
+			         
+			         
+		 else { // if the user wants to leave the application (they input c) 
+			 
+			 
+
+				
+			 	//ends application
+				System.out.println("Thank you for using this application, have a nice day!!!");
+				
+				
+				System.exit(0);
+			 
+			 
+		 }
+		
+			
+			
+			
+			
+			 	   } //if the questions file does not exist
+			 	 else {
+			 		 
+			 		 
+			 		 try {
+			 			 
+			 			 
+			 			  try {
+			        		   //file writer that can write into the file that will fille questions used in this program
+			        		   FileWriter questionwriter = new FileWriter(qfile);
+			        		   for(int r = 0; r < questions.size(); r++) {
+			        			   
+			        			   questionwriter.write(questions.get(r) + "\n");
+			        			   
+			        			   
+			        		   }
+			        		   
+			        		   questionwriter.close();
+			        	   }
+			        	   catch(Exception ex) {
+			        		   
+			        		 System.out.println("\nAn Exception occured\n") ; 
+			        		   
+			        		   
+			        	   }
+			        	   
+			        	   
+			        	   System.out.println("Your questions have been filed!! (It has overwritten the previous contents)\n");
+			        		  
+			        	   
+			        	   
+			        	   
+			        	   
+			        	   
+			        	   
+			        	   try {
+			        		   //file writer that can write into the file that will fille answers used in this program
+			        		   
+			        		   System.out.println("Input the name of the file where you would like to store your quizlet answers.(Hidden side of the card)");
+						 		
+						 		String answersfile = input.nextLine();
+				        	   
+						 		
+						 		
+						 		
+						 		while( true ) {
+						 			
+						 			if( !(answersfile.equals(questionsfile)) && !(answersfile.equals("")) && nameLegitimizer(answersfile)  ) {
+
+						 				break;
+						 			}
+						 			else {
+						 				
+						 				System.out.println("\nINVALID INPUT (Try again)\n");
+						 				answersfile = input.nextLine();
+						 			}
+						 			
+						 			
+						 			
+						 			
+						 			
+						 			
+						 		}
+						 		
+						 		
+						 		
+						 		answersfile = answersfile + ".txt";
+						 		
+						 		//file where answers will be stored
+						 		File afile = new File(answersfile);
+			        		   FileWriter answerwriter = new FileWriter(afile);
+			        		   for(int r = 0; r < answers.size(); r++) {
+			        			   
+			        			   answerwriter.write(answers.get(r) + "\n");
+			        			   
+			        			   
+			        		   }
+			        		   
+			        		   answerwriter.close();
+			        		   
+			        	   }
+			        	   catch(Exception ex) {
+			        		   
+			        		 System.out.println("\nAn Exception occured\n") ; 
+			        		   
+			        		   
+			        	   }
+			        	   
+			        	   
+			        	   System.out.println("Your answers have been filed!! (It has overwritten the previous contents)\n");
+			        		  
+			 		
+			 		
+			 		
+			 		
+			 		
+			 			 
+			 			 
+			 			 
+			 		 }
+			 		 catch(Exception exception) {
+			 			 
+			 			 
+			 			 System.out.println("\nAn error occured\n");
+			 			 
+			 			 
+			 			 
+			 		 }
+			 		 
+			 		 
+			 		 
+			 		 
+			 	 }
+			 	   
+			
+	    }// end of if statement/ the user wants to save 
+			 	
+				
+			 	//ends application
+				System.out.println("Thank you for using this application, have a nice day!!!");
+				
+				
+				System.exit(0);
+				
+				
+				
+			 	   
+			}
+		else { //if the user wants to continue using the application
+				
+				System.out.println("\nThis application will keep running\n");
+				
+//save the questions and answers
+				
+				System.out.println("Would you like to save the sides of your flashcards in a file? (input y for yes)");
+				
+				String save = input.nextLine();
+				
+				
+				//if the user wants to save
+			if(save.equals("y")) {
+			 		
+			 		System.out.println("Input the name of the file where you would like to store your quizlet questions(Shown side of the card). \n*(the '.txt. extension will be added automatically)\n");
+			 		String questionsfile = input.nextLine();
+			 		
+			 		
+			   while( true ) {
+			 			
+			 			if( !(questionsfile.equals("")) && nameLegitimizer(questionsfile) ) {
+
+			 				break;
+			 			}
+			 			else {
+			 				
+			 				System.out.println("\nINVALID INPUT (Try again)\n");
+				 			questionsfile = input.nextLine();
+			 			}
+			 			
+			 			
+			 			
+			 			
+			 			
+			 			
+			 		}
+			 		
+			 		
+			 		
+				 		 questionsfile = questionsfile + ".txt";
+			 		
+			 		//file where questions will be stored
+			 		File qfile = new File(questionsfile);
+			 		
+			 	 if(qfile.exists()) {
+			           System.out.println("This file currently exists in your computer, would you like to:\n- Replace that file's text with the questions"
+			           		+ " used in this quizlet session.(Input a)\n- add the questions used in this session to the file (without deleting previous information)(Input b)"
+			           		+ "\n- Do Not save the questions or answers in this quizlet simulation.(Input c)");
+			           
+			           
+			           String choice = input.nextLine();
+			           
+			           
+			           while(true) {
+			        	   
+			        	   
+			        	   if(choice.equals("a")) {
+			        	   
+			        	   break;
+			        	   }
+			           
+			        	   else if(choice.equals("b")) {
+			        	   break;
+			        	   
+			        	   }
+			        	   else if(choice.equals("c")) {
+			        	   break; 
+			        	   
+			        	   }
+			        	   else {
+			        	   
+			        		   System.out.println("Your previous input was invalid, please input a,b,or c.");
+			        	   }
+			           
+			           }
+			           
+			           
+			           
+			           
+			         if(choice.equals("a")) { //overwrite questions file
+			        	   
+			        	   //filing questions
+			        	   try {
+			        		   //file writer that can write into the file that will fille questions used in this program
+			        		   FileWriter questionwriter = new FileWriter(qfile);
+			        		   for(int r = 0; r < questions.size(); r++) {
+			        			   
+			        			   questionwriter.write(questions.get(r) + "\n");
+			        			   
+			        			   
+			        		   }
+			        		   
+			        		   questionwriter.close(); //closes question writer
+			        	   }
+			        	   catch(Exception ex) {
+			        		   
+			        		 System.out.println("\nAn Exception occured\n") ; 
+			        		   
+			        		   
+			        	   }
+			        	   
+			        	   
+			        	   System.out.println("Your questions have been filed!! (It has overwritten the previous contents)\n");
+			        		  
+			        	   
+			        	   
+			        	   
+			        	   
+			        	   
+			        	   
+			        	   
+			        	   
+			        	   
+			        	   
+			        	   
+			        	   
+			        	   //filing answers
+			        		System.out.println("Input the name of the file where you would like to store your quizlet answers.(Hidden side of the card)");
+					 		
+					 		String answersfile = input.nextLine();
+			        	   
+					 		
+					 		
+					 		
+					 		while( true ) {
+					 			
+					 			if( !(answersfile.equals(questionsfile)) && !(answersfile.equals("")) && nameLegitimizer(answersfile) ) {
+
+					 				break;
+					 			}
+					 			else {
+					 				
+					 				System.out.println("\nINVALID INPUT (Try again)\n");
+					 				answersfile = input.nextLine();
+					 			}
+					 			
+					 			
+					 			
+					 			
+					 			
+					 			
+					 		}
+					 		
+					 		
+					 		
+					 		answersfile = answersfile + ".txt";
+					 		
+					 		//file where answers will be stored
+					 		File afile = new File(answersfile);
+					 		
+		    if(afile.exists()) {
+					           System.out.println("This file currently exists in your computer, would you like to:\n- Replace that file's text with the answers"
+					           		+ " used in this quizlet session.(Input a)\n- add the questions used in this session to the file (without deleting previous information)(Input b)"
+					           		);
+					           
+					           
+					           String f = input.nextLine();
+					           
+					           
+					           while(true) {
+					           if(f.equals("a")) {
+					        	   
+					        	   break;
+					           }
+					           else if(f.equals("b")) {
+					        	   break;
+					        	   
+					           }
+					           else {
+					        	   
+					        	  System.out.println("Your previous input was invalid, please input a or b.");
+					           }
+					           
+					           }
+					           
+					           
+					           
+					           
+					           if(f.equals("a")) { //overwrite file
+					        	   
+					        	   //filing questions
+					        	   try {
+					        		   //file writer that can write into the file that will fille questions used in this program
+					        		   FileWriter answerwriter = new FileWriter(afile);
+					        		   for(int r = 0; r < answers.size(); r++) {
+					        			   
+					        			   answerwriter.write(answers.get(r) + "\n");
+					        			   
+					        			   
+					        		   }
+					        		   
+					        		   answerwriter.close(); //closes answerwriter writer
+					        		   
+					        	   }
+					        	   catch(Exception ex) {
+					        		   
+					        		 System.out.println("\nAn Exception occured\n") ; 
+					        		   
+					        		   
+					        	   }
+					        	   
+					        	   
+					        	   System.out.println("Your answers have been filed!! (It has overwritten the previous contents)\n");
+					        		  
+					 		
+					 		
+					 		
+					 		
+					 		
+					 		
+					 		
+					 		
+					 		
+					 		
+					 		
+					 		
+					 		
+			        	
+			           }
+			           else if(f.equals("b")) { //append file 
+			        	  //filing questions
+			        	   
+			        	   try {
+			        		   
+			        		   
+			        		   
+			        		   //file writer that can write into the file that will file questions used in this program
+			        		   
+			        		   //makes it to the file is appendable
+			        		   FileWriter answerwriter = new FileWriter(afile,true);
+			        		   
+			        		   //writed into file writer in order to append text
+			        		   PrintWriter bw = new PrintWriter(answerwriter);
+			        		   
+			        		   
+			        		   for(int g = 0; g < answers.size(); g++) {
+			        			   
+			        			   bw.write(answers.get(g)+ "\n");
+			        			   
+			        		   }
+			        			   
+			        		   
+			        		   answerwriter.close();
+			        		   bw.close();
+			        	   }
+			        	   catch(Exception w) {
+			        		   
+			        		 System.out.println("\nAn Exception occured\n") ; 
+			        		   
+			        		   
+			        	   }
+			        	   
+			        	   
+			        	  
+   
+			        	   
+			           }
+			           
+			           
+			         }
+			 	   else {
+			 		   
+			 		   
+			 		   //filing questions
+		        	   try {
+		        		   //file writer that can write into the file that will file questions used in this program
+		        		   FileWriter answerwriter = new FileWriter(afile);
+		        		   
+		        		   for(int d = 0; d < answers.size(); d++) {
+		        			   
+		        			   answerwriter.write(answers.get(d) + "\n");
+		        			   
+		        			   
+		        		   }
+		        		   
+		        		   answerwriter.close(); //closes answerwriter
+		        	   }
+		        	   catch(Exception s) {
+		        		   
+		        		 System.out.println("\nAn Exception occured\n") ; 
+		        		   
+		        		   
+		        	   }
+		        	   
+		        	   
+		        	   System.out.println("Your answers have been filed!! (It has overwritten the previous contents)\n");
+		        		  
+		        	  
+			 		   
+			 		   
+			 		   
+			 	   }
+			 		
+			 	
+			 		
+			 		
+			 		
+			 		
+			 	
+			 	
+			 
+			}
+		 else if(choice.equals("b"))        { // appending the questions file if it exists
+			        	 
+			//append questions file
+      	   
+      	   //filing questions
+      	   try {
+      		   //file writer that can write into the file that will fille questions used in this program
+      		   FileWriter questionwriter = new FileWriter(qfile,true);
+      		   PrintWriter bw = new PrintWriter(questionwriter);
+      		   
+      		   
+      		   for(int r = 0; r < questions.size(); r++) {
+      			   
+      			   bw.write(questions.get(r) + "\n");
+      			   
+      			   
+      		   }
+      		   
+      		   //closes filewriters
+      		   questionwriter.close();
+      		   bw.close();
+      	   }
+      	   catch(Exception ex) {
+      		   
+      		 System.out.println("\nAn Exception occured\n") ; 
+      		   
+      		   
+      	   }
+      	   
+      	   
+      	   System.out.println("Your questions have been filed!! (It has been added to the previous contents)\n");
+      		  
+      	   
+      	   
+      	   
+      	   
+      	   
+      	   
+      	   
+      	   
+      	   
+      	   
+      	   
+      	   
+      	   //filing answers
+      		System.out.println("Input the name of the file where you would like to store your quizlet answers.(Hidden side of the card)");
+		 		
+		 		String answersfile = input.nextLine();
+      	   
+		 		
+		 		
+		 		
+		 		while( true ) {
+		 			
+		 			if( !(answersfile.equals(questionsfile)) && !(answersfile.equals("")) && nameLegitimizer(answersfile)  ) {
+
+		 				break;
+		 			}
+		 			else {
+		 				
+		 				System.out.println("\nINVALID INPUT (Try again)\n");
+		 				answersfile = input.nextLine();
+		 			}
+		 			
+		 			
+		 			
+		 			
+		 			
+		 			
+		 		}
+		 		
+		 		
+		 		
+		 		answersfile = answersfile + ".txt";
+		 		
+		 		//file where answers will be stored
+		 		File afile = new File(answersfile);
+		 		
+if(afile.exists()) {
+		           System.out.println("This file currently exists in your computer, would you like to:\n- Replace that file's text with the answers"
+		           		+ " used in this quizlet session.(Input a)\n- add the questions used in this session to the file (without deleting previous information)(Input b)"
+		           		);
+		           
+		           
+		           String f = input.nextLine();
+		           
+		           
+		           while(true) {
+		           if(f.equals("a")) {
+		        	   
+		        	   break;
+		           }
+		           else if(f.equals("b")) {
+		        	   break;
+		        	   
+		           }
+		           else {
+		        	   
+		        	  System.out.println("Your previous input was invalid, please input a or b.");
+		           }
+		           
+		           }
+		           
+		           
+		           
+		           
+		           if(f.equals("a")) { //overwrite file
+		        	   
+		        	   //filing answers
+		        	   try {
+		        		   //file writer that can write into the file that will fille answers used in this program
+		        		   FileWriter answerwriter = new FileWriter(afile);
+		        		   for(int r = 0; r < answers.size(); r++) {
+		        			   
+		        			   answerwriter.write(answers.get(r) + "\n");
+		        			   
+		        			   
+		        		   }
+		        		   
+		        		   answerwriter.close();
+		        	   }
+		        	   catch(Exception ex) {
+		        		   
+		        		 System.out.println("\nAn Exception occured\n") ; 
+		        		   
+		        		   
+		        	   }
+		        	   
+		        	   
+		        	   System.out.println("Your answers have been filed!! (It has overwritten the previous contents)\n");
+		        		  
+		 		
+		 		
+		 		
+		 		
+		 		
+		 		
+		 		
+		 		
+		 		
+		 		
+		 		
+		 		
+		 		
+      	
+         }
+         else if(f.equals("b")) { //append file 
+      	  //filing questions
+      	   
+      	   try {
+      		   
+      		   
+      		   
+      		   //file writer that can write into the file that will file questions used in this program
+      		   
+      		   //makes it to the file is appendable
+      		   FileWriter answerwriter = new FileWriter(afile,true);
+      		   
+      		   //writed into file writer in order to append text
+      		   PrintWriter bw = new PrintWriter(answerwriter);
+      		   
+      		   
+      		   for(int g = 0; g < answers.size(); g++) {
+      			   
+      			   bw.write(answers.get(g)+ "\n");
+      			   
+      		   }
+      			   
+      		   bw.close();
+      		   answerwriter.close();
+      	   }
+      	   catch(Exception w) {
+      		   
+      		 System.out.println("\nAn Exception occured\n") ; 
+      		   
+      		   
+      	   }
+      	   
+      	   
+      	  
+
+      	   
+         }
+         
+         
+       }
+	   else {
+		   
+		   
+		   //filing questions
+  	   try {
+  		   //file writer that can write into the file that will file questions used in this program
+  		   FileWriter answerwriter = new FileWriter(afile);
+  		   
+  		   for(int d = 0; d < answers.size(); d++) {
+  			   
+  			   answerwriter.write(answers.get(d) + "\n");
+  			   
+  			   
+  		   }
+  		   answerwriter.close();
+  		   
+  	   }
+  	   catch(Exception s) {
+  		   
+  		 System.out.println("\nAn Exception occured\n") ; 
+  		   
+  		   
+  	   }
+  	   
+  	   
+  	   System.out.println("Your answers have been filed!! (It has overwritten the previous contents)\n");
+  		  
+  	  
+		   
+		   
+		   
+	   }
+		
+	
+		
+			 
+			 
+			 
+			 
+			        	 
+			       }
+			         
+			         
+		 else { // if the user wants to leave the application (they input c) 
+			 
+			 
+
+				
+			 	//ends application
+				System.out.println("Thank you for using this application, have a nice day!!!");
+				
+				
+				System.exit(0);
+			 
+			 
+		 }
+		
+			
+			
+			
+			
+			 	   } //if the questions file does not exist
+			 	 else {
+			 		 
+			 		 
+			 		 try {
+			 			 
+			 			 
+			 			  try {
+			        		   //file writer that can write into the file that will fille questions used in this program
+			        		   FileWriter questionwriter = new FileWriter(qfile);
+			        		   for(int r = 0; r < questions.size(); r++) {
+			        			   
+			        			   questionwriter.write(questions.get(r) + "\n");
+			        			   
+			        			   
+			        		   }
+			        		   
+			        		   questionwriter.close();
+			        	   }
+			        	   catch(Exception ex) {
+			        		   
+			        		 System.out.println("\nAn Exception occured\n") ; 
+			        		   
+			        		   
+			        	   }
+			        	   
+			        	   
+			        	   System.out.println("Your questions have been filed!! (It has overwritten the previous contents)\n");
+			        		  
+			        	   
+			        	   
+			        	   
+			        	   
+			        	   
+			        	   
+			        	   try {
+			        		   //file writer that can write into the file that will fille answers used in this program
+			        		   
+			        		   System.out.println("Input the name of the file where you would like to store your quizlet answers.(Hidden side of the card)");
+						 		
+						 		String answersfile = input.nextLine();
+				        	   
+						 		
+						 		
+						 		
+						 		while( true ) {
+						 			
+						 			if( !(answersfile.equals(questionsfile)) && !(answersfile.equals("")) && nameLegitimizer(answersfile)  ) {
+
+						 				break;
+						 			}
+						 			else {
+						 				
+						 				System.out.println("\nINVALID INPUT (Try again)\n");
+						 				answersfile = input.nextLine();
+						 			}
+						 			
+						 			
+						 			
+						 			
+						 			
+						 			
+						 		}
+						 		
+						 		
+						 		
+						 		answersfile = answersfile + ".txt";
+						 		
+						 		//file where answers will be stored
+						 		File afile = new File(answersfile);
+			        		   FileWriter answerwriter = new FileWriter(afile);
+			        		   for(int r = 0; r < answers.size(); r++) {
+			        			   
+			        			   answerwriter.write(answers.get(r) + "\n");
+			        			   
+			        			   
+			        		   }
+			        		   
+			        		   answerwriter.close();
+			        		   
+			        	   }
+			        	   catch(Exception ex) {
+			        		   
+			        		 System.out.println("\nAn Exception occured\n") ; 
+			        		   
+			        		   
+			        	   }
+			        	   
+			        	   
+			        	   System.out.println("Your answers have been filed!! (It has overwritten the previous contents)\n");
+			        		  
+			 		
+			 		
+			 		
+			 		
+			 		
+			 			 
+			 			 
+			 			 
+			 		 }
+			 		 catch(Exception exception) {
+			 			 
+			 			 
+			 			 System.out.println("\nAn error occured\n");
+			 			 
+			 			 
+			 			 
+			 		 }
+			 		 
+			 		 
+			 		 
+			 		 
+			 	 }
+			 	   
+			
+	    }// end of if statement/ the user wants to save 
+			 	
+				
+			 	
+			    String play = "y";
+			    
+			    //studymode
+			    while(true) {
+			    
+		    	if(mode.equals("a")) {
+		    		
+		    		
+		    		System.out.println("\n\nEntering test mode \n\n");
+		    		
+		    		
+		    		//calls testmode function(test form of studying)
+		    		grade = testmode(questions,answers);
+		    		
+		    		
+		    		System.out.println("\nHere is the amount you got correct:  " + grade[0]);
+	    			System.out.println("\nHere is the amount you got wrong: " + grade[1]);
+	    			System.out.println("\nHere is the amount you got here is your percentage: " + (int)grade[2] + "%");
+	    		
+	    		
+	    		
+		    		System.out.println("\nWould you like to keep studying these terms(input y for yes)??\n");
+		    		play = input.nextLine();
+		    		
+		    		
+		    		if( !play.equals("y")) {
+		    			
+		    			System.out.println("\nHave a nice day!!!\n");
+		    			System.exit(0);
+		    			
+		    		}
+		    		
+		    		
+		    		
+		    	}
+		    	else if(mode.equals("b")) {
+		    		
+		    		System.out.println("\n\nEntering Learn mode \n\n");
+		    		
+		    		//calls learnmode function(learnmode form of studying)
+		    		learnmode(questions,answers);
+		    		
+
+		    		System.out.println("\nWould you like to keep studying these terms(input y for yes)??\n");
+		    		play = input.nextLine();
+		    		
+		    		
+		    		if( !play.equals("y")) {
+		    			
+		    			System.out.println("\nHave a nice day!!!\n");
+		    			System.exit(0);
+		    			
+		    		}
+		    		
+		    		
+		    	}
+		    	else if(mode.equals("c")) {
+		    		
+		    		System.out.println("\nHave a nice day\n");
+		    		System.exit(0);
+		    		
+		    		
+		    	}
+		    	System.out.println("\nWhich Study-mode would you like to use now[input a for testmode],[input b for learnmode], [input c to close the application]??\n");
+	    		
+		    	mode = input.nextLine();
+	    		
+		    	 while(true) {
+				    	
+				    	if(mode.equals("a")) {
+				    		
+				    		break;
+				    		
+				    		
+				    	}
+				    	else if(mode.equals("b")) {
+				    		
+				    	break;
+				    		
+				    		
+				    		
+				    	}
+				    	else if(mode.equals("c")) {
+				    		
+					    	break;
+					    		
+					    		
+					    		
+					    }
+				    	else {
+				    		
+				    		System.out.println("Your previous input was invalid please input a or b. [test mode (input a) or learn mode(input b)]");
+				    		
+				    		mode = input.nextLine();
+				    		
+				    	}
+				    }
+		    	 
+				
+				
+			    }
+		 } 
+			
+			
+			
+			
+	}//end main function
+	
+	
+	    
+	    
+	
+	
+	  
+	//learnmode function       
+	
+	public static void learnmode(ArrayList<String> questions, ArrayList<String> answers) { //requires arraylist containng questions/answers
+		   
+		
+		//puts values in the sent over arraylists into the ones present in this function
+		
+		ArrayList<String> testquestions = new ArrayList<String>();
+		for(int i = 0; i < questions.size(); i++) {
+			
+			testquestions.add( questions.get(i));
+		}
+		
+		
+		
+		
+		ArrayList<String> testanswers = new ArrayList<String>();
+		for(int i = 0; i < answers.size(); i++) {
+			
+			testanswers.add( answers.get(i));
+		}
+		
+		
+
+		
+	
+		
+		//shows which questions are correct or the user gave up
+		ArrayList<Boolean> numcorrect = new ArrayList<Boolean>();
+		for(int i = 0; i < testquestions.size(); i++) {
+			
+			numcorrect.add(true); // true if user answers a question correctly/ false if user quits the question
+		}
+		
+		
+		
+		
+		
+		//records the amount of tries it takes for the user to get a question right every question
+		ArrayList<Integer> tries = new ArrayList<Integer>();
+		//adds  0 into the tries arraylist
+		for(int i = 0; i < testquestions.size(); i++) {
+			
+			tries.add(0);
+		}
+	
+			
+		System.out.println("\nThere are two ways to study in learning mode. Would you like the questions"
+				+ " presented:\na) in the order you entered them(input a)\n"
+				+ "b) in a random order (input b)\n");
+		
+		String option = input.nextLine();
+		
+		while(true) {
+	    	
+	    	if(option.equals("a")) {
+	    		
+	    		break;
+	    		
+	    		
+	    	}
+	    	else if(option.equals("b")) {
+	    		
+	    	break;
+	    		
+	    		
+	    		
+	    	}
+	    	else {
+	    		
+	    		System.out.println("Your previous input was invalid please input a or b. [test mode (input a) or learn mode(input b)]");
+	    		
+	    		option = input.nextLine();
+	    		
+	    	}
+	    }
+		
+		
+		
+		if(option.equals("a")) {
+    		 
+    		System.out.println("The questions will be presented in the order they were entered!");
+    		
+    		int qnum = 0; // the number of the current question
+    		int trys = 0; //the number of current attempts
+    				
+    		String attempt = "";
+    		
+    		boolean quit = false;
+    		
+    		boolean newattempt = true;//checks if it is okay to continue to the next question
+    		
+    		while(true) {
+    			
+    			if(newattempt == true) {
+    				newattempt = false;
+    				
+    			System.out.println("Shown side: " + questions.get(qnum));
+    			System.out.println("\nHidden side(answer):");
+    			attempt = input.nextLine();
+    			
+    			}
+    			
+    		    if(attempt.equals(testanswers.get(qnum)) || quit == true) {
+    		    	
+    		    	newattempt = true;
+    		    	
+    		    	if(quit == false) {
+    		    	System.out.println("\nYou inputted the correct answer\n");
+    		    	
+    		    	//adds that the user got a question correct
+    		    	numcorrect.set(qnum, true);
+    		    	}
+    		    	else {
+    		    		System.out.println("\nYou gave up on the previous question\n");	
+    		    		
+    		    		trys = trys - 1;// makes sure that inputting q to quit the question doesn't count as an attempt
+    		    		
+    		    		//records that the user quit a question
+    		    		numcorrect.set(qnum, false);
+    		    		quit = false;
+    		    	}
+    		    	
+    		    	
+    		    	trys +=1; //increases the amount of tries it takes the user to get it right
+    		    	tries.set(qnum, trys);
+    		
+    		    	qnum += 1;// updates the number of the current question
+    		    	
+    		    	
+    		    	//resets the trys variable back to 0
+    		    
+    		    	trys = 0;
+    		    	
+    		    	
+    		    	if(qnum == testquestions.size()) {
+    		    		
+    		    		System.out.println("All questions have now been completed. Here is your study session summary.");
+    		    		break; //ends session once all of the questions have been completed
+    		    		
+    		    	}
+    		    }
+    		    else {
+    		    	System.out.println("\nGood try, your previous respose was incorrect, try again or (input q to give up on this question)\n");
+    		    	
+    		    	trys +=1; //increases the amount of tries it takes the user to get it right
+    		    	
+    		    	attempt = input.nextLine();
+    		    	
+    		    	if(attempt.equals("q")) {
+    		    		
+    		    		quit = true;
+    		    	}
+    		    	
+    		    }
+    		    
+    		    
+    		    
+    		 
+    			
+    			
+    			
+    			
+    			
+    			
+    			
+    		}
+    		
+    		
+    		
+    		   //output study session summary
+		    
+			System.out.println("\n\n*****Study mode report*****\n\n");
+			
+			String out = "";
+			
+			
+			for(int i = 0; i < testquestions.size(); i++) {
+				
+				System.out.println("Card " + (i + 1) + ": ");
+				System.out.println("- Shown Side: " + testquestions.get(i) + "");
+				System.out.println("- Hidden Side: " + testanswers.get(i) + "");
+				System.out.println("- Amount of attempts: " + tries.get(i) + " attempts");
+				
+				if(numcorrect.get(i) == true) {
+					
+				out = " You got the question right!!\n";
+				
+				}
+				else {
+					out = " You gave up on this question!!\n";
+    				
+					
+				}
+				System.out.println("- Correct: " + out);
+				
+				System.out.println("\n");
+				
+				
+			}
+    		
+    		
+    	}
+    	else if(option.equals("b")) { //questions outputted randomly to the user
+    		
+ 
+    		System.out.println("The questions will be presented randomly");
+    		
+    		Random rand = new Random(); //randomizer
+    		
+    		
+    		
+    		
+    				
+    		String attempt = "";
+    		
+    		boolean quit = false;
+    		
+    		boolean newattempt = true;//checks if it is okay to continue to the next question
+    		
+    
+    		int trys = 0; //the number of current attempts
+    		
+    		//testquestions (arraylists that will remove questions each time it is completed)
+    		
+    		//questions arraylist(base arraylist where we get positions to pur stuff in other arraylists 
+    		
+    		int qnum = rand.nextInt(testquestions.size()); // the number of the current question
+    		
+    		
+    		while(true) {
+    			
+    			if(newattempt == true) {
+    				newattempt = false;
+    				
+    			System.out.println("Shown side: " + testquestions.get(qnum));
+    			System.out.println("\nHidden side(answer):");
+    			attempt = input.nextLine();
+    			
+    			}
+    			
+    		    if(attempt.equals(testanswers.get(qnum)) || quit == true) {
+    		    	
+    		    	newattempt = true;
+    		    	
+    		    	if(quit == false) {
+    		    	System.out.println("\nYou inputted the correct answer\n");
+    		    	
+    		    	//adds that the user got a question correct
+    		    	numcorrect.set(questions.indexOf(testquestions.get(qnum)), true);
+    		    	}
+    		    	else {
+    		    		System.out.println("\nYou gave up on the previous question\n");	
+    		    		
+    		    		
+    		    		//records that the user quit a question
+    		    		numcorrect.set(questions.indexOf(testquestions.get(qnum)), false);
+    		    		quit = false;
+    		    	}
+    		    	
+    		    	
+    		    	trys +=1; //increases the amount of tries it takes the user to get it right
+    		    	tries.set(questions.indexOf(testquestions.get(qnum)), trys);
+    		
+    		    	if(1 == testquestions.size()) {
+    		    		
+    		    		System.out.println("All questions have now been completed. Here is your study session summary.");
+    		    		break; //ends session once all of the questions have been completed
+    		    		
+    		    	}
+
+
+    		    	if(testquestions.size()> 1 && testanswers.size() > 1) {
+    		    	testquestions.remove(qnum);
+    		    	testanswers.remove(qnum);
+    		    	
+    		    	}
+    		    	
+    		    	
+    		    	
+    		    	
+    		    	qnum = rand.nextInt(testquestions.size());// updates the number of the current question
+    		    	
+    		    	
+    		    	//resets the trys variable back to 0
+    		    
+    		    	trys = 0;
+    		    	
+    		    	
+    		    	
+    		    }
+    		    else {
+    		    	System.out.println("\nGood try, your previous respose was incorrect, try again or (input q to give up on this question)\n");
+    		    	
+    		    	trys +=1; //increases the amount of tries it takes the user to get it right
+    		    	
+    		    	attempt = input.nextLine();
+    		    	
+    		    	if(attempt.equals("q")) {
+    		    		
+    		    		quit = true;
+    		    		trys = trys - 1;// makes sure that inputting q to quit the question doesn't count as an attempt
+    		    		
+    		    		
+    		    	}
+    		    	
+    		    }
+    		    
+    		    
+    		    
+    		 
+    			
+    			
+    			
+    			
+    			
+    			
+    			
+    		}
+    		
+    		
+    		
+    		   //output study session summary
+		    
+			System.out.println("\n\n*****Study mode report*****\n\n");
+			
+			String out = "";
+			 
+			
+			for(int i = 0; i < questions.size(); i++) {
+				
+				System.out.println("Card " + (i + 1) + ": ");
+				System.out.println("- Shown Side: " + questions.get(i) + "");
+				System.out.println("- Hidden Side: " + answers.get(i) + "");
+				System.out.println("- Amount of attempts: " + tries.get(i) + " attempts");
+				
+				if(numcorrect.get(i) == true) {
+					
+				out = " You got the question right!!\n";
+				
+				}
+				else {
+					out = " You gave up on this question!!\n";
+    				
+					
+				}
+				System.out.println("- Correct: " + out);
+				
+				System.out.println("\n");
+				
+				
+			}
+    		
+    		
+    		
+
+    	}
+		
+		
+		
+		
+		
+		
+		
+		
+	}//end  function
+	
+	
+	
+	
+	//testmode function
+	
+	public static double[] testmode(ArrayList<String> questions, ArrayList<String> answers) {  //requires arraylist containng questions/answers
+		
+		ArrayList<String> testq1 = new ArrayList<String>();
+		for(int y = 0; y <questions.size(); y++) {
+			
+			testq1.add(questions.get(y));
+		}
+		
+		ArrayList<String> testa1 = new ArrayList<String>();
+		for(int z = 0; z <answers.size(); z++) {
+			
+			testa1.add(answers.get(z));
+		}
+		
+		
+		double[] score = new double[3]; //initialization of the array containing the user's score (percentage) and their raw number score
+		score[0] = 0; //amount correct
+		score[1] = 0; //amount wrong
+		score[2] = 0; //percentage
+		
+		 
+		System.out.println("\nThere are two ways to study in testing mode. Would you like the questions"
+				+ " presented:\na) in the order you entered them(input a)\n"
+				+ "b) in a random order (input b)\n");
+		
+		String option = input.nextLine();
+		
+		while(true) {
+	    	
+	    	if(option.equals("a")) {
+	    		
+	    		break;
+	    		
+	    		
+	    	}
+	    	else if(option.equals("b")) {
+	    		
+	    	break;
+	    		
+	    		
+	    		
+	    	}
+	    	else {
+	    		
+	    		System.out.println("Your previous input was invalid please input a or b. [test mode (input a) or learn mode(input b)]");
+	    		
+	    		option = input.nextLine();
+	    		
+	    	}
+	    }
+		 
+		
+		if(option.equals("a")) {
+    		
+    	System.out.println("The questions will be presented in order!\n");
+    		
+    	double c = 0;//amount of questions the user gets correct
+    	double w = 0; // amount of questions the user gets wrong
+    		
+    	String attempt = "";
+    	
+    	for(int i = 0; i < testq1.size();i++) {
+    		
+    		System.out.println("Shown Side: \n" + testq1.get(i));
+    		System.out.println("Hidden Side: \n");
+    		attempt = input.nextLine();
+    		if(attempt.equals(testa1.get(i))) {
+    			
+    			c += 1;
+    			System.out.println("\nYou got this question right\n");
+    		}
+    		else {
+    			w +=1;
+    			System.out.println("\nYou got this question wrong\n");
+    		}
+    		
+    	}
+    	
+    	score[0] = c;
+    	score[1] = w;
+    	double total = c + w;
+    	score[2] = (c/total) * 100;
+    	
+    	
+    	
+    		
+    	}
+		else if(option.equals("b")) {
+    		
+    	System.out.println("The questions will be presented randomly!\n");
+    		
+    	double c = 0;//amount of questions the user gets correct
+    	double w = 0; // amount of questions the user gets wrong
+    		
+    	String attempt = "";
+    	
+    	Random rand = new Random();
+    	
+    	int next = rand.nextInt(testq1.size());
+    	
+    	
+    while(true) {
+    		
+    	
+    	if(testq1.size() > 1) {
+    		System.out.println("Shown Side: \n" + testq1.get(next));
+    		System.out.println("Hidden Side: \n");
+    		attempt = input.nextLine();
+    		if(attempt.equals(testa1.get(next))) {
+    			
+    			c += 1;
+    			System.out.println("\nYou got this question right\n");
+    		}
+    		else {
+    			w +=1;
+    			System.out.println("\nYou got this question wrong\n");
+    		}
+    		
+    		
+    		
+    		testq1.remove(next);
+    		testa1.remove(next);
+    		 next = rand.nextInt(testq1.size());
+    		}
+    		else {
+    			
+    			break;
+    		}
+    }
+    
+    
+    
+
+	System.out.println("Shown Side: \n" + testq1.get(0));
+	System.out.println("Hidden Side: \n");
+	attempt = input.nextLine();
+	if(attempt.equals(testa1.get(0))) {
+		
+		c += 1;
+		System.out.println("\nYou got this question right\n");
+	}
+	else {
+		w +=1;
+		System.out.println("\nYou got this question wrong\n");
+	}
+	
+
+    	
+    
+    	score[0] = c;
+    	score[1] = w;
+    	double total = c + w;
+    	score[2] = (c/total) * 100;
+    	
+    	
+    	
+    		
+    	}
+		
+		
+	 	
+		
+		
+		return score; //returns array containing the user's percentage and raw score
+	}//end  function
+	
+	   
+	
+	
+	
+	
+	// returns an array containing the shown side and hidden side of a card
+	public static String[] cardmaker(int size /*  how many flashcards the user has made so far */) {
+		
+		
+		 String shown = "";
+		    
+		    String hidden = "";
+		    
+		    // initialization of returned array.
+		    
+		    String[] returned = new String[2];
+		    
+		   
+		    	
+		    System.out.println("\nInput the prompt/ shown side of flashcard " +  (size + 1) + ":\n");
+		    	
+		        shown = input.nextLine();
+		        
+		        while(shown.equals("")) {
+		        	
+		        	System.out.println("\nYour previous input was invalid, Please input characters:\n");
+			    	
+			        shown = input.nextLine();
+		        }
+		        
+		        returned[0] = shown;
+		        
+		        System.out.println("\nInput the answer/ hidden side of flashcard " +  (size + 1) + ":\n");
+		    	
+		        hidden = input.nextLine();
+		        
+		        
+		        while(hidden.equals("")) {
+		        	
+		        	System.out.println("\nYour previous input was invalid, Please input characters:\n");
+			    	
+			        hidden = input.nextLine();
+		        }
+		        
+		        returned[1] = hidden;
+		    	
+		
+		    
+		    
+		return returned;
+		
+	}//end  function
+	
+	
+	
+	
+	
+	
+	//checks numbers legitimacy
+	 public static boolean numberLegitimizer(String test) {
+			
+		
+			boolean legit = false;
+			String numbers = "1234567890";
+		
+			int counter = 0;  
+			
+			for (int i = 1; i <= test.length(); i++) { // Checks if any of the number characters does not equal a number character
+				
+				
+				for (int o = 1; o <= numbers.length(); o++) {
+				
+				  if(test.substring(i - 1,i).equals(numbers.substring(o - 1, o)) ) {
+					
+					counter += 1; 
+					break;
+				   }
+				  
+				 
+				  
+				  
+					
+				}
+				
+			}
+			
+			
+			if (counter >= test.length() ) {   // checks if the amount of legitimate number characters is greater than or equal to the length of the string
+
+				
+
+				return !legit; // Returns true if it doesn't contain a non-number character
+				
+				// returns true if the amount of legitimate number characters is greater than or equal to the length of the string 
+			}
+			else {
+				
+			return legit; // Returns false if it does contain a non-number character
+			
+			// returns false if the amount of legitimate number characters is less than or equal to the length of the string 
+			}
+			
+			
+			
+		}//end  function
+	 
+	 
+	 
+	 public static boolean useagain() {
+		 
+		 System.out.println("Would you like to keep using this application? (Input y for yes)");
+		 
+		String use = input.nextLine();
+		
+		if(use.equals("y")) {;
+			
+			return true;
+		}
+		else {
+			return false;
+		}
+		
+	 }
+	 
+	  
+	 
+	 
+
+	 //validates names
+
+	 public static boolean nameLegitimizer(String test) { // This makes sure that the Employee's name has only letters and no extraneous characters
+			
+			boolean legit = false;
+			String alphabet = "abcdefghijklmnopqrstuvwxyz1234567890";
+			String capital = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
+			int counter = 0;  
+			
+			for (int i = 1; i <= test.length(); i++) { // Checks if any of the name characters doesn't equal the alphabet character
+				
+				
+				for (int o = 1; o <= alphabet.length(); o++) {
+				
+				  if(test.substring(i - 1,i).equals(alphabet.substring(o - 1, o)) ) {
+					
+					counter += 1; // checks the amount of characters that equal the alphabet characters
+					break;
+				   }
+				  
+				  if(test.substring(i - 1,i).equals(capital.substring(o - 1, o)) ) {
+						
+					counter += 1;  // checks the amount of characters that equal the alphabet characters
+					break;
+					
+				   }
+				  
+				  
+					
+				}
+				
+			}
+			
+			
+			if (counter >= test.length() ) { // checks if the amount of legitimate characters is greater than or equal to the length of the string
+
+				return !legit; // returns true if there are only letters in the string 
+				
+				
+	// returns true if the amount of legit characters is greater than or equal the length of the string
+				
+			}
+			else { 
+				
+			return legit; // returns false if there are characters other then letters in the string
+			
+			
+			
+	//returns false if the amount of legit characters is less than the length of the string
+			
+			
+			}
+		}
+		
+	 
+	 
+	 
+	 
+}
+ 
+
+
+
+
+
+
+
+
+
+
