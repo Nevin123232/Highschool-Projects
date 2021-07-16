@@ -1,0 +1,237 @@
+#the python code for the guess that word simulator
+
+
+'''
+programmer: Nevin Ndonwi
+Date started: 6/7/2021 
+Date completed: 6/7/2021
+Duration of work: 4 hours
+  
+Guess that word simulator (programmed in python)
+
+Summary
+
+#guess that word game
+
+-there is a source file where the program will get words randomly. (Create sourcefile and get the words)
+
+-  the word written like ##### will be outputted to the user 
+
+- The user will 
+- a) try to guess a letter that is in the word
+or
+- b) guess the word
+
+- once the user figures out the word, the user's name, how many guesses they took,  the word, and the date and time of this event will be written in a file of records. (will be appended)
+
+- Once the user wins, they can add a word into the file (as long as this is a different word from what is in the file)
+
+- The Sinnoh gamecorner theme will play during this project
+'''
+
+import datetime  #imports how to get the date and time 
+from os import path #imports a way to check if a file exists and sound capabilities
+from random import randrange #imports random
+import time #able to pause program execution
+import winsound
+
+
+
+def playsound():  #you might have to add this sound file on the project on your device
+    soundfile = "gametheme1.wav" #sinnoh gamecorner theme soundfile, loops until program closes
+    
+    winsound.PlaySound(soundfile, winsound.SND_LOOP + winsound.SND_ASYNC) #Asynch makes sound play during program execution 
+   
+  
+
+
+playsound()
+
+#name of sourcewords file
+filename = "sourcewords.txt" 
+
+
+#checks if file exists
+if( (path.exists(filename  )) ):
+  print("\nThe Sourcefile of words exists on this device, commencing the game...\n")
+ 
+
+else: 
+  print("\nThe word source file can not be found on this device, downloading a pre-programmed set of words to solve this issue...\n")
+  sourcewords = open(filename, 'w')
+
+  #basic list of words if there is not a premade list
+  basicwords = {"apple", "banana", "carrot", "defenestration", "evolution", "friendship", "grapefruit", "halo", "instances", "jam", "keyboard", "laziness", "may", "nice", "orange", "potato", "queasy", "raisins", "salt", "training", "unlucky", "very", "water", "xylophone", "zebra", "hello"}
+
+  #adds words to the sourcewords file
+  for word in basicwords:
+    sourcewords.write(word + "\n")
+
+  print("\n\nThe file of sourcewords has been created, commencing the game\n\n");
+
+  #closes file after filing words
+  sourcewords.close()
+
+
+#gains user's name
+name = input("Input your name:\n")
+
+print("\nWelcome to the word guesser simulator " + name)
+
+print("\nIn this game you will have to guess what random word the program will generate for you.")
+
+time.sleep(2) #makes the program pause for 2 seconds 
+
+print()
+
+#list of words being used in the game
+gamewords = []
+
+sourcewords = open(filename, 'r')
+lineamount = 0;
+
+for line in sourcewords:
+  lineamount += 1
+  #adds word to the list of gamewords
+  addWord = line.strip() #gets rid of newline character so it doesn't interfere with gameplay
+  gamewords.append(addWord) #adds playable word to list
+
+
+#sorts the list of playable words
+#gamewords.sort()
+
+#outputs words in the game
+print(gamewords)
+  
+print("There are " + str(lineamount + 1) + " possible words in this file.")
+
+#starting the game
+wordused = gamewords[randrange(0,lineamount)]
+
+
+wordhash = []
+
+#makes a word in hashtags so the player can guess
+for x in wordused:
+  wordhash.append("#")
+
+
+#gameplay
+
+#amount of guesses
+guessamount = 0
+
+#amount of times asked for a letter
+letteramount = 0
+
+while(True):
+ action = input("\nInput (a) if you want to guess the word\nInput (b) if you want to guess a letter in the word\nInput (c) if you want to see the list of words again\n")
+
+ if(action == "a"):
+   guess = input("\nInput what you think the word is " + name + "\n")
+  
+   guessamount = guessamount + 1
+  #if the player gets the word right
+   if(guess == wordused):
+    if(guessamount == 1):
+      print("\n Wow, you got it on the first try " + name)
+    break;
+   else:
+     print("\n" + name + ", your guess was wrong. Try again\n")
+
+
+ elif(action == "b"):
+    #print the word in hashtags
+    print("\n" , wordhash , "\n")
+
+   #ask them to guess a letter
+
+    guess = input("\nInput a letter that you think is in the word " + name +"\n")
+
+    letteramount += 1
+
+#checks characters of the word and see if any match the guessed letter
+
+#counter of the letter positions
+    wordcounter = -1
+    for x in wordused:
+      wordcounter += 1
+      if(x == guess):
+        wordhash[wordcounter] = guess
+
+    print("\n" , wordhash , "\n")
+    print("\nHopefully that helped\n")
+ elif(action == "c"):
+     print("\n", gamewords, "\n")
+
+ else:
+    print("input a  , b , or c to continue the game")
+
+
+
+
+#creates a datetime object
+now = datetime.datetime.now()
+
+
+
+#gets date and time formatted the way I want it formatted
+datex = now.strftime('%m-%d-%Y') #date
+timex = now.strftime("%H:%M:%S") #time
+
+
+print("\n*******Simulation complete*******\n")
+
+time.sleep(2)
+
+print("\n\n")
+print("Report: ")
+print("* " + name + " guessed " + str(guessamount) + " word(s) in order to guess the right word\n")
+print("* " + name + " guessed " + str(letteramount) + " letter(s) in order to figure out the word\n")
+overall = "Overall it took " + name + " " + str(letteramount) + " letter guess(es) " + " and " + str(guessamount) + " word guess(es) " + " in order to solve the word " + wordused + " on " + datex + " at " + timex
+
+print(overall)
+  
+recordfilename = "playerhistory.txt"
+
+if( (path.exists(recordfilename  )) ): #appends the new winner instead of erasing the previous players
+ print("\nYour name, score, and attempts will be filed on a file called 'playerhistory.txt' in your computer\n")
+ 
+ recordfile = open("playerhistory.txt", 'a+')
+
+ recordfile.write( overall +"\n")
+
+ print("\nYour data was filed\n")
+
+ print("**filecreation complete**")
+
+ recordfile.close()
+
+ 
+else: #creates a new file on the computer
+  print("\nThe 'playerhistory.txt' file can not be found on your computer. A replicate is being produced now\n" )
+
+  recordfile = open("playerhistory.txt", "w")
+
+  recordfile.write( overall +"\n")
+
+  print("\nYour data was filed\n")
+
+  print("**filecreation complete**")
+
+  recordfile.close()
+
+
+
+
+recordfile = open("playerhistory.txt", "r")
+
+print("\nPrevious Players\n")
+
+print(recordfile.read())
+
+time.sleep(2)
+
+print("Have a nice day!!! (you can close the program now)")
+
+recordfile.close()
